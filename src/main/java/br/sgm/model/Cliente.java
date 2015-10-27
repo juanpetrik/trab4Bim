@@ -63,7 +63,4 @@ public class Cliente {
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
-	
-	
-	
 }
