@@ -32,17 +32,17 @@ public abstract class MolduraAbstrata extends JPanel {
 		panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0};
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		btnExcluir = new JButton("Excluir");
 		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
-		gbc_btnExcluir.anchor = GridBagConstraints.EAST;
 		gbc_btnExcluir.insets = new Insets(0, 0, 0, 5);
-		gbc_btnExcluir.gridx = 10;
+		gbc_btnExcluir.anchor = GridBagConstraints.EAST;
+		gbc_btnExcluir.gridx = 0;
 		gbc_btnExcluir.gridy = 0;
 		panel.add(btnExcluir, gbc_btnExcluir);
 		
@@ -50,7 +50,7 @@ public abstract class MolduraAbstrata extends JPanel {
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
 		gbc_btnSalvar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSalvar.anchor = GridBagConstraints.EAST;
-		gbc_btnSalvar.gridx = 12;
+		gbc_btnSalvar.gridx = 1;
 		gbc_btnSalvar.gridy = 0;
 		panel.add(btnSalvar, gbc_btnSalvar);
 		
@@ -58,7 +58,7 @@ public abstract class MolduraAbstrata extends JPanel {
 		GridBagConstraints gbc_btnFechar = new GridBagConstraints();
 		gbc_btnFechar.fill = GridBagConstraints.VERTICAL;
 		gbc_btnFechar.anchor = GridBagConstraints.EAST;
-		gbc_btnFechar.gridx = 13;
+		gbc_btnFechar.gridx = 2;
 		gbc_btnFechar.gridy = 0;
 		panel.add(btnFechar, gbc_btnFechar);
 		
