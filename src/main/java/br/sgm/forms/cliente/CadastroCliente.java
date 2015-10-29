@@ -1,21 +1,28 @@
 package br.sgm.forms.cliente;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import br.sgm.enums.Genero;
+import br.sgm.enums.UF;
+
 public class CadastroCliente extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtID;
+	private JTextField txtNome;
+	private JTextField txtEndereco;
+	private JTextField txtCidade;
+	private JTextField txtTelefone;
+	private JTextField txtEmail;
 
 	/**
 	 * Create the panel.
@@ -36,135 +43,142 @@ public class CadastroCliente extends JPanel {
 		gbc_lblId.gridy = 0;
 		add(lblId, gbc_lblId);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtID = new JTextField();
+		GridBagConstraints gbc_txtID = new GridBagConstraints();
+		gbc_txtID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtID.insets = new Insets(0, 0, 5, 5);
+		gbc_txtID.gridx = 1;
+		gbc_txtID.gridy = 0;
+		add(txtID, gbc_txtID);
+		txtID.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Nome");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
-		add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblNome = new JLabel("Nome");
+		GridBagConstraints gbc_lblNome = new GridBagConstraints();
+		gbc_lblNome.anchor = GridBagConstraints.EAST;
+		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNome.gridx = 0;
+		gbc_lblNome.gridy = 1;
+		add(lblNome, gbc_lblNome);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.gridwidth = 4;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 1;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txtNome = new JTextField();
+		GridBagConstraints gbc_txtNome = new GridBagConstraints();
+		gbc_txtNome.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNome.insets = new Insets(0, 0, 5, 0);
+		gbc_txtNome.gridwidth = 4;
+		gbc_txtNome.gridx = 1;
+		gbc_txtNome.gridy = 1;
+		add(txtNome, gbc_txtNome);
+		txtNome.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Endere\u00E7o");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 2;
-		add(lblNewLabel_2, gbc_lblNewLabel_2);
+		JLabel lblEndereco = new JLabel("Endere\u00E7o");
+		GridBagConstraints gbc_lblEndereco = new GridBagConstraints();
+		gbc_lblEndereco.anchor = GridBagConstraints.EAST;
+		gbc_lblEndereco.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEndereco.gridx = 0;
+		gbc_lblEndereco.gridy = 2;
+		add(lblEndereco, gbc_lblEndereco);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 4;
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 2;
-		add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		txtEndereco = new JTextField();
+		GridBagConstraints gbc_txtEndereco = new GridBagConstraints();
+		gbc_txtEndereco.gridwidth = 4;
+		gbc_txtEndereco.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEndereco.insets = new Insets(0, 0, 5, 0);
+		gbc_txtEndereco.gridx = 1;
+		gbc_txtEndereco.gridy = 2;
+		add(txtEndereco, gbc_txtEndereco);
+		txtEndereco.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("Cidade");
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_3.gridx = 0;
-		gbc_lblNewLabel_3.gridy = 3;
-		add(lblNewLabel_3, gbc_lblNewLabel_3);
+		JLabel lblCidade = new JLabel("Cidade");
+		GridBagConstraints gbc_lblCidade = new GridBagConstraints();
+		gbc_lblCidade.anchor = GridBagConstraints.EAST;
+		gbc_lblCidade.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCidade.gridx = 0;
+		gbc_lblCidade.gridy = 3;
+		add(lblCidade, gbc_lblCidade);
 		
-		textField_4 = new JTextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 3;
-		add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		txtCidade = new JTextField();
+		GridBagConstraints gbc_txtCidade = new GridBagConstraints();
+		gbc_txtCidade.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCidade.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCidade.gridx = 1;
+		gbc_txtCidade.gridy = 3;
+		add(txtCidade, gbc_txtCidade);
+		txtCidade.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("UF");
-		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_4.gridx = 2;
-		gbc_lblNewLabel_4.gridy = 3;
-		add(lblNewLabel_4, gbc_lblNewLabel_4);
+		JLabel lblUF = new JLabel("UF");
+		GridBagConstraints gbc_lblUF = new GridBagConstraints();
+		gbc_lblUF.anchor = GridBagConstraints.EAST;
+		gbc_lblUF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUF.gridx = 2;
+		gbc_lblUF.gridy = 3;
+		add(lblUF, gbc_lblUF);
 		
-		JComboBox comboBox = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.gridx = 3;
-		gbc_comboBox.gridy = 3;
-		add(comboBox, gbc_comboBox);
+		JComboBox cbUF = new JComboBox();
+		GridBagConstraints gbc_cbUF = new GridBagConstraints();
+		gbc_cbUF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbUF.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUF.gridx = 3;
+		gbc_cbUF.gridy = 3;
+		add(cbUF, gbc_cbUF);
 		
-		JLabel lblNewLabel_1 = new JLabel("Telefone");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 4;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblTelefone = new JLabel("Telefone");
+		GridBagConstraints gbc_lblTelefone = new GridBagConstraints();
+		gbc_lblTelefone.anchor = GridBagConstraints.EAST;
+		gbc_lblTelefone.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTelefone.gridx = 0;
+		gbc_lblTelefone.gridy = 4;
+		add(lblTelefone, gbc_lblTelefone);
 		
-		textField_5 = new JTextField();
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_5.gridx = 1;
-		gbc_textField_5.gridy = 4;
-		add(textField_5, gbc_textField_5);
-		textField_5.setColumns(10);
+		txtTelefone = new JTextField();
+		GridBagConstraints gbc_txtTelefone = new GridBagConstraints();
+		gbc_txtTelefone.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTelefone.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTelefone.gridx = 1;
+		gbc_txtTelefone.gridy = 4;
+		add(txtTelefone, gbc_txtTelefone);
+		txtTelefone.setColumns(10);
 		
-		JLabel lblNewLabel_6 = new JLabel("E-mail");
-		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_6.gridx = 2;
-		gbc_lblNewLabel_6.gridy = 4;
-		add(lblNewLabel_6, gbc_lblNewLabel_6);
+		JLabel lblEmail = new JLabel("E-mail");
+		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.anchor = GridBagConstraints.EAST;
+		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEmail.gridx = 2;
+		gbc_lblEmail.gridy = 4;
+		add(lblEmail, gbc_lblEmail);
 		
-		textField_6 = new JTextField();
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_6.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_6.gridwidth = 2;
-		gbc_textField_6.gridx = 3;
-		gbc_textField_6.gridy = 4;
-		add(textField_6, gbc_textField_6);
-		textField_6.setColumns(10);
+		txtEmail = new JTextField();
+		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
+		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEmail.insets = new Insets(0, 0, 5, 0);
+		gbc_txtEmail.gridwidth = 2;
+		gbc_txtEmail.gridx = 3;
+		gbc_txtEmail.gridy = 4;
+		add(txtEmail, gbc_txtEmail);
+		txtEmail.setColumns(10);
 		
-		JLabel lblNewLabel_7 = new JLabel("G\u00EAnero");
-		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_7.gridx = 0;
-		gbc_lblNewLabel_7.gridy = 5;
-		add(lblNewLabel_7, gbc_lblNewLabel_7);
+		JLabel lblGenero = new JLabel("G\u00EAnero");
+		GridBagConstraints gbc_lblGenero = new GridBagConstraints();
+		gbc_lblGenero.anchor = GridBagConstraints.EAST;
+		gbc_lblGenero.insets = new Insets(0, 0, 0, 5);
+		gbc_lblGenero.gridx = 0;
+		gbc_lblGenero.gridy = 5;
+		add(lblGenero, gbc_lblGenero);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBox_1.gridx = 1;
-		gbc_comboBox_1.gridy = 5;
-		add(comboBox_1, gbc_comboBox_1);
+		JComboBox cbGenero = new JComboBox();
+		GridBagConstraints gbc_cbGenero = new GridBagConstraints();
+		gbc_cbGenero.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbGenero.insets = new Insets(0, 0, 0, 5);
+		gbc_cbGenero.gridx = 1;
+		gbc_cbGenero.gridy = 5;
+		add(cbGenero, gbc_cbGenero);
+		
+		// Adicionando as UF's no combobox..
+		for (UF uf : UF.values()) 
+			cbUF.addItem(uf);
+	
+		// Adicionando os Generos no combobox
+		for (Genero genero : Genero.values())
+			cbGenero.addItem(genero);
 		
 	}
-
 }
