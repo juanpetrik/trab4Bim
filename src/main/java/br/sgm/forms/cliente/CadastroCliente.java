@@ -1,20 +1,17 @@
 package br.sgm.forms.cliente;
 
-import javax.swing.JPanel;
-
-import java.awt.GridBagLayout;
-
-import javax.swing.JButton;
-
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
+import br.sgm.model.Cliente;
 
 public class CadastroCliente extends JPanel {
 	private JTextField txtID;
@@ -23,7 +20,9 @@ public class CadastroCliente extends JPanel {
 	private JTextField txtCidade;
 	private JTextField txtTelefone;
 	private JTextField txtEmail;
-
+	private JComboBox cbUF;
+	private JComboBox cbGenero;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -113,7 +112,7 @@ public class CadastroCliente extends JPanel {
 		gbc_lblUF.gridy = 3;
 		add(lblUF, gbc_lblUF);
 		
-		JComboBox cbUF = new JComboBox();
+		cbUF = new JComboBox();
 		GridBagConstraints gbc_cbUF = new GridBagConstraints();
 		gbc_cbUF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbUF.insets = new Insets(0, 0, 5, 0);
@@ -164,7 +163,7 @@ public class CadastroCliente extends JPanel {
 		gbc_lblGenero.gridy = 5;
 		add(lblGenero, gbc_lblGenero);
 		
-		JComboBox cbGenero = new JComboBox();
+		cbGenero = new JComboBox();
 		GridBagConstraints gbc_cbGenero = new GridBagConstraints();
 		gbc_cbGenero.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbGenero.insets = new Insets(0, 0, 0, 5);
@@ -179,6 +178,24 @@ public class CadastroCliente extends JPanel {
 		// Adicionando os Generos no combobox
 		for (Genero genero : Genero.values())
 			cbGenero.addItem(genero);
+	}
+	
+	private Cliente getDados(){
+		Cliente c = new Cliente();
 		
+		c.setId(Integer.parseInt(txtID.getText()));
+		c.setNome(txtNome.getText());
+		c.setTelefone(txtTelefone.getText());
+		c.setEmail(txtEmail.getText());
+		c.setEndereco(txtEndereco.getText());
+		c.setUf((UF) cbUF.getSelectedItem());
+		c.setGenero((Genero) cbGenero.getSelectedItem());
+		c.setCidade(txtCidade.getText());
+		
+		return c;
+	}
+
+	public Runnable getAcaoSalvar() {
+		return () -> System.out.println("Salvando..");
 	}
 }

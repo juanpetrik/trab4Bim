@@ -14,6 +14,9 @@ public class TelaCadastroCliente extends MolduraAbstrata{
 
 	@Override
 	protected void configurarCentro() {
-		super.add(new CadastroCliente(), BorderLayout.CENTER);
+		CadastroCliente cadastroCliente = new CadastroCliente();
+		super.add(cadastroCliente, BorderLayout.CENTER);
+		
+		super.setAcaoSalvar(cadastroCliente.getAcaoSalvar());
 	}
 }

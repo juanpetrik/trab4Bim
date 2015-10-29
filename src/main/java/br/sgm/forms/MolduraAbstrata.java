@@ -74,4 +74,8 @@ public abstract class MolduraAbstrata extends JPanel {
 
 	}
 
+	public void setAcaoSalvar(Runnable acaoSalvar) {
+		btnSalvar.addActionListener(e -> acaoSalvar.run());
+	}
+
 }

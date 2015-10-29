@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
+import br.sgm.forms.cliente.CadastroCliente;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 
 public class TelaPrincipal extends JFrame {
@@ -64,7 +65,7 @@ public class TelaPrincipal extends JFrame {
 						tabbedPane.remove(telaCadastroCliente);
 						telaCadastroCliente = null;
 					});
-
+					
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
 				}
 			}
