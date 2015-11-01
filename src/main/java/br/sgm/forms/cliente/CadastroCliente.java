@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -206,7 +207,9 @@ public class CadastroCliente extends JPanel {
 				
 				ClienteDAO dao = new ClienteDAO();
 				
+				dao.setConexao(ConexaoMysql.getConexaoBD());
 				dao.inseriralterar(cliente);
+				JOptionPane.showMessageDialog(null, "Cliente Salvo com Sucesso!");
 			}
 		};
 		
@@ -218,7 +221,21 @@ public class CadastroCliente extends JPanel {
 	}
 
 	public Runnable getAcaoExcluir() {
+		Runnable runnable = new Runnable() {
+			public void run() {
+				int opcao = JOptionPane.showConfirmDialog(null,"Deseja Realmente Excluir?", "Atencão", JOptionPane.YES_NO_OPTION);    
+		           if(opcao == JOptionPane.YES_OPTION){   
+	
+				Cliente cliente = getDados();
+				
+				ClienteDAO dao = new ClienteDAO();
+				
+				dao.setConexao(ConexaoMysql.getConexaoBD());
+				dao.deletar(cliente);
+		           }
+			}
+		};
 		
-		return null;
+		return runnable;
 	}
 }

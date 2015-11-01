@@ -1,8 +1,8 @@
 package br.sgm.enums;
 
 public enum Genero {
-	M("Masculino"),
-	F("Feminino");
+	M("M"),
+	F("F");
 	
     private String nome;
 

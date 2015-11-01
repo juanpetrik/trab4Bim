@@ -16,8 +16,7 @@ public class ConexaoMysql {
 	// Como não teho a necessidade de ter mais de uma conexão com o banco, foi adotado esse padrão..
 	private ConexaoMysql() {
 		url = "jdbc:mysql://localhost:3306/";
-		if (dbName.equals(""))
-			dbName = "trab4bimoo";
+		dbName = "trab4bimoo";
 		driver = "com.mysql.jdbc.Driver";
 		userName = "root";
 		password = "";
