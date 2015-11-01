@@ -3,6 +3,8 @@ package br.sgm.forms.cliente;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import br.sgm.conexao.ConexaoMysql;
+import br.sgm.dao.ClienteDAO;
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
 import br.sgm.model.Cliente;
@@ -197,10 +200,17 @@ public class CadastroCliente extends JPanel {
 	}
 
 	public Runnable getAcaoSalvar() {
-		ConexaoMysql conexaoBD = ConexaoMysql.getConexaoBD();
+		Runnable runnable = new Runnable() {
+			public void run() {
+				Cliente cliente = getDados();
+				
+				ClienteDAO dao = new ClienteDAO();
+				
+				dao.inseriralterar(cliente);
+			}
+		};
 		
-		
-		return null;
+		return runnable;
 	}
 
 	public Runnable getAcaoFechar() {

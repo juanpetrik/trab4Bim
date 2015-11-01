@@ -9,4 +9,5 @@ public abstract class DAO {
 	public abstract void alterar(Object obj);
 	public abstract <T> List<T> listar(Object obj);
 	public abstract <T> T consultar(Object obj);
+	public abstract void inseriralterar(Object obj);
 }

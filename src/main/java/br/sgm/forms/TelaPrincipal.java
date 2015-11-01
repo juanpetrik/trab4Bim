@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import br.sgm.forms.cliente.CadastroCliente;
+import br.sgm.conexao.ConexaoMysql;
+import br.sgm.conexao.StartBD;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 
 public class TelaPrincipal extends JFrame {
@@ -80,9 +81,9 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmStartBd = new JMenuItem("Start BD");
 		mntmStartBd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-			
-				
+				ConexaoMysql.setBancoDados("mysql");
+				StartBD.executeSqlScript(ConexaoMysql.getConexaoBD());
+				ConexaoMysql.setBancoDados("trab4bimoo");
 			}
 		});
 		mnConfiguraes.add(mntmStartBd);
