@@ -60,11 +60,11 @@ public class TelaPrincipal extends JFrame {
 
 			private void abrirCadastrodeClientes() {
 				if (telaCadastroCliente == null) {
-					telaCadastroCliente = new TelaCadastroCliente();
-					telaCadastroCliente.setFecharAction(e -> {
+					telaCadastroCliente = new TelaCadastroCliente(() -> {
 						tabbedPane.remove(telaCadastroCliente);
 						telaCadastroCliente = null;
-					});
+					});					
+		
 					
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
 				}

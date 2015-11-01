@@ -3,6 +3,7 @@ package br.sgm.forms.cliente;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,6 +12,7 @@ import javax.swing.JTextField;
 
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
+import br.sgm.forms.TelaPrincipal;
 import br.sgm.model.Cliente;
 
 public class CadastroCliente extends JPanel {
@@ -197,5 +199,14 @@ public class CadastroCliente extends JPanel {
 
 	public Runnable getAcaoSalvar() {
 		return () -> System.out.println("Salvando..");
+	}
+
+	public Runnable getAcaoFechar(Runnable acao) {
+		return acao;
+	}
+
+	public Runnable getAcaoExcluir() {
+		
+		return null;
 	}
 }
