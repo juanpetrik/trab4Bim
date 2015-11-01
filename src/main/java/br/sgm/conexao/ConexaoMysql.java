@@ -7,6 +7,8 @@ public class ConexaoMysql {
 	public Connection conn;
 	public static ConexaoMysql conexao;
 
+	// Construtor padrão.. Privado pois está implementando o padrão de projeto singleton
+	// Como não teho a necessidade de ter mais de uma conexão com o banco, foi adotado esse padrão..
 	private ConexaoMysql() {
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "trab4BimOO";
@@ -21,6 +23,7 @@ public class ConexaoMysql {
 		}
 	}
 
+	// Método que vai retornar a conexão, caso ela não exista, será criada...
 	public static ConexaoMysql getConexaoBD() {
 		if (conexao == null) {
 			conexao = new ConexaoMysql();

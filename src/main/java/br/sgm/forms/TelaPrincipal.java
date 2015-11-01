@@ -60,11 +60,7 @@ public class TelaPrincipal extends JFrame {
 
 			private void abrirCadastrodeClientes() {
 				if (telaCadastroCliente == null) {
-					telaCadastroCliente = new TelaCadastroCliente(() -> {
-						tabbedPane.remove(telaCadastroCliente);
-						telaCadastroCliente = null;
-					});					
-		
+					telaCadastroCliente = new TelaCadastroCliente();		
 					
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
 				}
@@ -77,6 +73,19 @@ public class TelaPrincipal extends JFrame {
 
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
 		mnNewMenu.add(mntmProdutos);
+		
+		JMenu mnConfiguraes = new JMenu("Configura\u00E7\u00F5es");
+		menuBar.add(mnConfiguraes);
+		
+		JMenuItem mntmStartBd = new JMenuItem("Start BD");
+		mntmStartBd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+			
+				
+			}
+		});
+		mnConfiguraes.add(mntmStartBd);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
