@@ -64,6 +64,7 @@ public class ClienteDAO extends DAO {
 				//c.setUf(rs.getString(6));
 				c.setEmail(rs.getString(7));
 				//c.setGenero(rs.getString(8));
+				list.add((T) c);
 			}
 
 		} catch (SQLException e) {

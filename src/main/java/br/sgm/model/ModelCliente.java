@@ -10,7 +10,7 @@ public class ModelCliente extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public List<Cliente> list;
 
 	@Override
@@ -29,29 +29,23 @@ public class ModelCliente extends AbstractTableModel {
 
 		switch (col) {
 		case 0:
-			c.getId();
-			break;
+			return c.getId();
 		case 1:
-			c.getNome();
-			break;
+			return c.getNome();
 		case 2:
-			c.getTelefone();
-			break;
+			return c.getTelefone();
 		case 3:
-			c.getEndereco();
-			break;
+			return c.getEndereco();
 		case 4:
-			c.getCidade();
-			break;
+			return c.getCidade();
 		case 5:
-			c.getUf().getNome();
-			break;
+			return "null"; // c.getUf().getNome();
 		case 6:
 			c.getEmail();
 			break;
 		case 7:
-			c.getGenero().getNome();
-			break;
+			return "null";
+			//c.getGenero().getNome();
 		}
 
 		return null;

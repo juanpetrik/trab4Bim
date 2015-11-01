@@ -1,15 +1,16 @@
 package br.sgm.forms.cliente;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import br.sgm.conexao.ConexaoMysql;
@@ -17,6 +18,7 @@ import br.sgm.dao.ClienteDAO;
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
 import br.sgm.model.Cliente;
+import br.sgm.model.ModelCliente;
 
 public class CadastroCliente extends JPanel {
 	private JTextField txtID;
@@ -27,6 +29,9 @@ public class CadastroCliente extends JPanel {
 	private JTextField txtEmail;
 	private JComboBox cbUF;
 	private JComboBox cbGenero;
+	private JPanel panel;
+	private JScrollPane scrollPane;
+	private JTable tableClientes;
 	
 	/**
 	 * Create the panel.
@@ -34,9 +39,9 @@ public class CadastroCliente extends JPanel {
 	public CadastroCliente() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{45, 123, 49, 65, 0};
-		gridBagLayout.rowHeights = new int[]{20, 20, 20, 22, 20, 22, 0};
+		gridBagLayout.rowHeights = new int[]{20, 20, 20, 22, 20, 22, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblId = new JLabel("ID");
@@ -120,7 +125,7 @@ public class CadastroCliente extends JPanel {
 		cbUF = new JComboBox();
 		GridBagConstraints gbc_cbUF = new GridBagConstraints();
 		gbc_cbUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbUF.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUF.insets = new Insets(0, 0, 5, 5);
 		gbc_cbUF.gridx = 3;
 		gbc_cbUF.gridy = 3;
 		add(cbUF, gbc_cbUF);
@@ -163,7 +168,7 @@ public class CadastroCliente extends JPanel {
 		JLabel lblGenero = new JLabel("G\u00EAnero");
 		GridBagConstraints gbc_lblGenero = new GridBagConstraints();
 		gbc_lblGenero.anchor = GridBagConstraints.EAST;
-		gbc_lblGenero.insets = new Insets(0, 0, 0, 5);
+		gbc_lblGenero.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGenero.gridx = 0;
 		gbc_lblGenero.gridy = 5;
 		add(lblGenero, gbc_lblGenero);
@@ -171,10 +176,26 @@ public class CadastroCliente extends JPanel {
 		cbGenero = new JComboBox();
 		GridBagConstraints gbc_cbGenero = new GridBagConstraints();
 		gbc_cbGenero.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbGenero.insets = new Insets(0, 0, 0, 5);
+		gbc_cbGenero.insets = new Insets(0, 0, 5, 5);
 		gbc_cbGenero.gridx = 1;
 		gbc_cbGenero.gridy = 5;
 		add(cbGenero, gbc_cbGenero);
+		
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridwidth = 5;
+		gbc_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 6;
+		add(panel, gbc_panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane, BorderLayout.CENTER);
+		
+		tableClientes = new JTable();
+		scrollPane.setViewportView(tableClientes);
 		
 		// Adicionando as UF's no combobox..
 		for (UF uf : UF.values()) 
@@ -183,6 +204,8 @@ public class CadastroCliente extends JPanel {
 		// Adicionando os Generos no combobox
 		for (Genero genero : Genero.values())
 			cbGenero.addItem(genero);
+		
+		atualizarTabela();
 	}
 	
 	private Cliente getDados(){
@@ -210,10 +233,22 @@ public class CadastroCliente extends JPanel {
 				dao.setConexao(ConexaoMysql.getConexaoBD());
 				dao.inseriralterar(cliente);
 				JOptionPane.showMessageDialog(null, "Cliente Salvo com Sucesso!");
+				atualizarTabela();
 			}
 		};
 		
 		return runnable;
+	}
+
+	protected void atualizarTabela() {
+		ClienteDAO dao = new ClienteDAO();
+		ModelCliente model = new ModelCliente();
+	     	
+		model.list = dao.listar(new Cliente());
+		
+		
+		
+		tableClientes.setModel(model);
 	}
 
 	public Runnable getAcaoFechar() {
