@@ -42,9 +42,12 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal() {
+		setTitle("SGM");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-
+		setLocationRelativeTo(null); 
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 

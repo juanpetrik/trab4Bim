@@ -15,7 +15,7 @@ public class ModelCliente extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 7;
+		return 8;
 	}
 
 	@Override
@@ -41,13 +41,38 @@ public class ModelCliente extends AbstractTableModel {
 		case 5:
 			return "null"; // c.getUf().getNome();
 		case 6:
-			c.getEmail();
-			break;
+			return c.getEmail();
 		case 7:
 			return "null";
 			//c.getGenero().getNome();
 		}
-
+		
 		return null;
 	}
+
+	@Override
+	public String getColumnName(int col) {
+		switch (col) {
+		case 0:
+			return "ID";
+		case 1:
+			return "Nome";
+		case 2:
+			return "Telefone";
+		case 3:
+			return "Endereço";
+		case 4:
+			return "Cidade";
+		case 5:
+			return "UF";
+		case 6:
+			return "Email";
+		case 7:
+			return "Gênero";
+		}
+		
+		return null;
+	}
+	
+	
 }
