@@ -1,9 +1,9 @@
 package br.sgm.enums;
 
 public enum Unidade {
-	PC("Peça"),
-	UN("Unidade"),
-	CX("Caixa");
+	PC("PC"),
+	UN("UN"),
+	CX("CX");
 	
 	private String nome;
 	

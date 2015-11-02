@@ -11,11 +11,11 @@ public class ModelProduto extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public List<Cliente> list;
+	public List<Produto> list;
 
 	@Override
 	public int getColumnCount() {
-		return 8;
+		return 7;
 	}
 
 	@Override
@@ -25,25 +25,23 @@ public class ModelProduto extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		Cliente c = list.get(row);
+		Produto p = list.get(row);
 
 		switch (col) {
 		case 0:
-			return c.getId();
+			return p.getId();
 		case 1:
-			return c.getNome();
+			return p.getCodBarras();
 		case 2:
-			return c.getTelefone();
+			return p.getCategoria().getNome();
 		case 3:
-			return c.getEndereco();
+			return p.getDescricao();
 		case 4:
-			return c.getCidade();
+			return p.getUnidade().getNome();
 		case 5:
-			return c.getUf().getNome();
+			return p.getCusto();
 		case 6:
-			return c.getEmail();
-		case 7:
-			return c.getGenero().getNome();
+			return p.getMargemLucro();
 		}
 		
 		return null;
@@ -55,19 +53,17 @@ public class ModelProduto extends AbstractTableModel {
 		case 0:
 			return "ID";
 		case 1:
-			return "Nome";
+			return "Cod Barras";
 		case 2:
-			return "Telefone";
+			return "Categoria";
 		case 3:
-			return "Endereço";
+			return "Descrição";
 		case 4:
-			return "Cidade";
+			return "Unidade";
 		case 5:
-			return "UF";
+			return "Custo R$";
 		case 6:
-			return "Email";
-		case 7:
-			return "Gênero";
+			return "Margem de Lucro %";
 		}
 		
 		return null;

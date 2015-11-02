@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.sgm.conexao.ConexaoMysql;
+import br.sgm.enums.Categoria;
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
+import br.sgm.enums.Unidade;
 import br.sgm.model.Cliente;
+import br.sgm.model.Produto;
 
 import com.mysql.jdbc.Statement;
 
@@ -24,17 +27,17 @@ public class ProdutoDAO extends DAO {
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
 	@Override
-	public void inserir(Object cliente) {
+	public void inserir(Object produto) {
 		// Usar o inserirAlterar
 	}
 
 	@Override
-	public void deletar(Object cliente) {
-		Cliente c = (Cliente) cliente;
+	public void deletar(Object produto) {
+		Produto p = (Produto) produto;
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
-			ps.setInt(1, c.getId());
+			ps.setInt(1, p.getId());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -43,12 +46,12 @@ public class ProdutoDAO extends DAO {
 	}
 
 	@Override
-	public void alterar(Object cliente) {
-		
+	public void alterar(Object produto) {
+
 	}
 
 	@Override
-	public <T> List<T> listar(Object cliente) {
+	public <T> List<T> listar(Object produto) {
 		List<T> list = new ArrayList<T>();
 
 		Statement st;
@@ -57,26 +60,25 @@ public class ProdutoDAO extends DAO {
 
 			ResultSet rs = st.executeQuery(SQL_LISTAR);
 			while (rs.next()) {
-				Cliente c = new Cliente();
-				c.setId(rs.getInt(1));
-				c.setNome(rs.getString(2));
-				c.setTelefone(rs.getString(3));
-				c.setEndereco(rs.getString(4));
-				c.setCidade(rs.getString(5));
+				Produto p = new Produto();
+
+				p.setId(rs.getInt(1));
+				p.setCodBarras(rs.getString(2));
+
+				for (Categoria categoria : Categoria.values())
+					if (categoria.getNome().equals(rs.getString(3)))
+						p.setCategoria(categoria);
+
+				p.setDescricao(rs.getString(4));
+
+				for (Unidade unidade : Unidade.values())
+					if (unidade.getNome().equals(rs.getString(5)))
+						p.setUnidade(unidade);
+
+				p.setCusto(rs.getBigDecimal(6));
+				p.setMargemLucro(rs.getBigDecimal(7));
 				
-				for (UF uf : UF.values()) {
-					if (uf.getNome().equals(rs.getString(6)))
-						c.setUf(uf);
-				}
-				
-				c.setEmail(rs.getString(7));
-				
-				for (Genero genero : Genero.values()) {
-					if (genero.getNome().equals(rs.getString(8)))
-						c.setGenero(genero);
-				}
-				
-				list.add((T) c);
+				list.add((T) p);
 			}
 
 		} catch (SQLException e) {
@@ -87,68 +89,64 @@ public class ProdutoDAO extends DAO {
 	}
 
 	@Override
-	public <T> T consultar(Object cliente) {
-		Cliente newCliente = (Cliente) cliente;
-		
+	public <T> T consultar(Object produto) {
+		Produto newProduto = (Produto) produto;
+
 		Statement st;
-		Cliente c = new Cliente();
-		
+		Produto p = new Produto();
+
 		try {
 			st = (Statement) conn.createStatement();
 
-			ResultSet rs = st.executeQuery(SQL_CONSULTAR + newCliente.getId());
+			ResultSet rs = st.executeQuery(SQL_CONSULTAR + newProduto.getId());
 			if (rs.first()) {
+
+				p.setId(rs.getInt(1));
+				p.setCodBarras(rs.getString(2));
+
+				for (Categoria categoria : Categoria.values())
+					if (categoria.getNome().equals(rs.getString(3)))
+						p.setCategoria(categoria);
+
+				p.setDescricao(rs.getString(4));
+
+				for (Unidade unidade : Unidade.values())
+					if (unidade.getNome().equals(rs.getString(5)))
+						p.setUnidade(unidade);
+
+				p.setCusto(rs.getBigDecimal(6));
+				p.setMargemLucro(rs.getBigDecimal(7));
 				
-				c.setId(rs.getInt(1));
-				c.setNome(rs.getString(2));
-				c.setTelefone(rs.getString(3));
-				c.setEndereco(rs.getString(4));
-				c.setCidade(rs.getString(5));
-				
-				for (UF uf : UF.values()) {
-					if (uf.getNome().equals(rs.getString(6)))
-						c.setUf(uf);
-				}
-				
-				c.setEmail(rs.getString(7));
-				
-				for (Genero genero : Genero.values()) {
-					if (genero.getNome().equals(rs.getString(8)))
-						c.setGenero(genero);
-				}
-				
-				return (T) c;
+				return (T) p;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
 	@Override
-	public void inseriralterar(Object cliente) {
-		Cliente c = (Cliente) cliente;
+	public void inseriralterar(Object produto) {
+		Produto p = (Produto) produto;
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
-			ps.setInt(1, c.getId());
-			ps.setString(2, c.getNome());
-			ps.setString(3, c.getTelefone());
-			ps.setString(4, c.getEndereco());
-			ps.setString(5, c.getCidade());
-			ps.setString(6, c.getUf().getNome());
-			ps.setString(7, c.getEmail());
-			ps.setString(8, c.getGenero().getNome());
-			ps.setString(9, c.getNome());
-			ps.setString(10, c.getTelefone());
-			ps.setString(11, c.getEndereco());
-			ps.setString(12, c.getCidade());
-			ps.setString(13, c.getUf().toString());
-			ps.setString(14, c.getEmail());
-			ps.setString(15, c.getGenero().getNome().toString());
-
+			ps.setInt(1, p.getId());
+			ps.setString(2, p.getCodBarras());
+			ps.setString(3, p.getCategoria().getNome());
+			ps.setString(4, p.getDescricao());
+			ps.setString(5, p.getUnidade().getNome());
+			ps.setBigDecimal(6, p.getCusto());
+			ps.setBigDecimal(7, p.getMargemLucro());
+			ps.setString(8, p.getCodBarras());
+			ps.setString(9, p.getCategoria().getNome());
+			ps.setString(10, p.getDescricao());
+			ps.setString(11, p.getUnidade().getNome());
+			ps.setBigDecimal(12, p.getCusto());
+			ps.setBigDecimal(13, p.getMargemLucro());
+			
 			ps.executeUpdate();
 
 		} catch (SQLException e) {

@@ -97,7 +97,7 @@ public class CadastroProduto extends JPanel {
 					if (produto != null) {
 						moveDadosToForm(produto);
 					} else {
-						JOptionPane.showMessageDialog(null, "Nenhum cliente foi encontrado");
+						JOptionPane.showMessageDialog(null, "Nenhum Produto foi encontrado");
 					}
 				}
 
@@ -266,7 +266,7 @@ public class CadastroProduto extends JPanel {
 
 		produto.setId(Integer.parseInt(txtID.getText()));
 		produto.setCodBarras(txtCodBarras.getText());
-		produto.setDescricao(txtCusto.getText());
+		produto.setDescricao(txtDescricao.getText());
 		produto.setMargemLucro(new BigDecimal(txtMargemLucro.getText()));
 		produto.setUnidade((Unidade) cbUnidade.getSelectedItem());
 		produto.setCusto(new BigDecimal(txtCusto.getText()));
@@ -302,9 +302,9 @@ public class CadastroProduto extends JPanel {
 	}
 
 	protected void atualizarTabela() {
-		model.list = dao.listar(new Cliente());
+		model.list = dao.listar(new Produto());
 
-		// tableClientes.setModel(model);
+		tableProdutos.setModel(model);
 		model.fireTableDataChanged();
 	}
 
@@ -316,7 +316,7 @@ public class CadastroProduto extends JPanel {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				if (txtID.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Por favor, informe um cliente para excluir");
+					JOptionPane.showMessageDialog(null, "Por favor, informe um Produto para excluir");
 				} else {
 					int opcao = JOptionPane.showConfirmDialog(null, "Deseja Realmente Excluir?", "Atencão", JOptionPane.YES_NO_OPTION);
 					if (opcao == JOptionPane.YES_OPTION) {
