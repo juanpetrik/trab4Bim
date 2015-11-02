@@ -142,6 +142,7 @@ public class CadastroUsuario extends JPanel {
 		add(lblNome, gbc_lblNome);
 
 		txtNome = new JTextField();
+		txtNome.setEditable(false);
 		GridBagConstraints gbc_txtNome = new GridBagConstraints();
 		gbc_txtNome.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNome.insets = new Insets(0, 0, 5, 0);
@@ -202,16 +203,20 @@ public class CadastroUsuario extends JPanel {
 			c = (Cliente) obj;
 			
 			cbIDCliente.addItem(c.getId());
-			txtNome.setText(c.getNome());
 		}
 		
+		cbIDCliente.actionPerformed(null);
 		
 		atualizarTabela();
 	}
 
 	protected void moveDadosToForm(Usuario usuario) {
 		txtID.setText(String.valueOf(usuario.getId()));
-		//txtNome.setText(usuario.getNome());
+		
+		Cliente c;
+		c = (Cliente) listar.get(cbIDCliente.getSelectedIndex());
+		txtNome.setText(c.getNome());
+		
 		cbIDCliente.setSelectedItem(usuario.getIdCliente());
 		txtSenha.setText(usuario.getSenha());
 	}
@@ -220,7 +225,7 @@ public class CadastroUsuario extends JPanel {
 		Usuario usuario = new Usuario();
 
 		usuario.setId(Integer.parseInt(txtID.getText()));
-		usuario.setIdCliente(Integer.parseInt((String) cbIDCliente.getSelectedItem()));
+		usuario.setIdCliente((int) cbIDCliente.getSelectedItem());
 		usuario.setSenha(txtSenha.getText());
 
 		return usuario;
@@ -252,7 +257,7 @@ public class CadastroUsuario extends JPanel {
 	protected void atualizarTabela() {
 		model.list = dao.listar(new Usuario());
 
-		// tableClientes.setModel(model);
+		tableUsuarios.setModel(model);
 		model.fireTableDataChanged();
 	}
 

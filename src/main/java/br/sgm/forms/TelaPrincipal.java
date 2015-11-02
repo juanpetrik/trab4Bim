@@ -18,6 +18,7 @@ import br.sgm.conexao.StartBD;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 import br.sgm.forms.produto.TelaCadastroProduto;
 import br.sgm.forms.usuario.TelaCadastroUsuario;
+import br.sgm.forms.venda.TelaVenda;
 
 public class TelaPrincipal extends JFrame {
 
@@ -47,9 +48,9 @@ public class TelaPrincipal extends JFrame {
 		setTitle("SGM");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		setLocationRelativeTo(null); 
+		setLocationRelativeTo(null);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -66,8 +67,8 @@ public class TelaPrincipal extends JFrame {
 
 			private void abrirCadastrodeClientes() {
 				if (telaCadastroCliente == null) {
-					telaCadastroCliente = new TelaCadastroCliente();		
-					
+					telaCadastroCliente = new TelaCadastroCliente();
+
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
 				}
 			}
@@ -84,8 +85,8 @@ public class TelaPrincipal extends JFrame {
 
 			private void abrirCadastrodeClientes() {
 				if (telaCadastroUsuario == null) {
-					telaCadastroUsuario = new TelaCadastroUsuario();		
-					
+					telaCadastroUsuario = new TelaCadastroUsuario();
+
 					tabbedPane.addTab("Cadastro de Usuários", telaCadastroUsuario);
 				}
 			}
@@ -95,24 +96,46 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
 		mntmProdutos.addActionListener(new ActionListener() {
 			private TelaCadastroProduto telaCadastroProduto;
-			
+
 			public void actionPerformed(ActionEvent arg0) {
 				abrirCadastrodeProdutos();
 			}
 
 			private void abrirCadastrodeProdutos() {
 				if (telaCadastroProduto == null) {
-					telaCadastroProduto = new TelaCadastroProduto();		
-					
+					telaCadastroProduto = new TelaCadastroProduto();
+
 					tabbedPane.addTab("Cadastro de Produtos", telaCadastroProduto);
 				}
 			}
 		});
 		mnNewMenu.add(mntmProdutos);
+
+		JMenu mnVenda = new JMenu("Faturamento");
+
+		menuBar.add(mnVenda);
 		
+		JMenuItem mntmVenda = new JMenuItem("Venda");
+		mntmVenda.addActionListener(new ActionListener() {
+			private TelaVenda telaVenda;
+
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaVenda();
+			}
+
+			private void abrirTelaVenda() {
+				if (telaVenda == null) {
+					telaVenda = new TelaVenda();
+
+					tabbedPane.addTab("Venda", telaVenda);
+				}
+			}
+		});
+		mnVenda.add(mntmVenda);
+
 		JMenu mnConfiguraes = new JMenu("Configura\u00E7\u00F5es");
 		menuBar.add(mnConfiguraes);
-		
+
 		JMenuItem mntmStartBd = new JMenuItem("Start BD");
 		mntmStartBd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

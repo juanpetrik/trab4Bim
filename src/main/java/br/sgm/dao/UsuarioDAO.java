@@ -13,27 +13,27 @@ import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
 import br.sgm.enums.Unidade;
 import br.sgm.model.Cliente;
-import br.sgm.model.Produto;
+import br.sgm.model.Usuario;
 
 import com.mysql.jdbc.Statement;
 
 public class UsuarioDAO extends DAO {
 
-	private static final String SQL_INSERIRALTERAR = "insert into produtos (id, codBarras, categoria, descricao, unidade, custo, margemLucro) values (?, ?, ?, ?, ?, ?, ?) on duplicate key update codBarras = ?, categoria = ?, descricao = ?, unidade = ?, custo = ?, margemLucro = ?";
-	private static final String SQL_DELETAR = "delete from produtos where id = ?";
-	private static final String SQL_LISTAR = "select * from produtos";
-	private static final String SQL_CONSULTAR = "select * from produtos where id = ";
+	private static final String SQL_INSERIRALTERAR = "INSERT INTO usuarios (id, idCliente, senha) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE idCliente = ?, senha = ?  ";
+	private static final String SQL_DELETAR = "delete from usuarios where id = ?";
+	private static final String SQL_LISTAR = "select * from usuarios";
+	private static final String SQL_CONSULTAR = "select * from usuarios where id = ";
 
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
 	@Override
-	public void inserir(Object produto) {
+	public void inserir(Object usuario) {
 		// Usar o inserirAlterar
 	}
 
 	@Override
-	public void deletar(Object produto) {
-		Produto p = (Produto) produto;
+	public void deletar(Object usuario) {
+		Usuario p = (Usuario) usuario;
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
@@ -46,12 +46,12 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public void alterar(Object produto) {
+	public void alterar(Object usuario) {
 
 	}
 
 	@Override
-	public <T> List<T> listar(Object produto) {
+	public <T> List<T> listar(Object usuario) {
 		List<T> list = new ArrayList<T>();
 
 		Statement st;
@@ -60,24 +60,12 @@ public class UsuarioDAO extends DAO {
 
 			ResultSet rs = st.executeQuery(SQL_LISTAR);
 			while (rs.next()) {
-				Produto p = new Produto();
+				Usuario p = new Usuario();
 
 				p.setId(rs.getInt(1));
-				p.setCodBarras(rs.getString(2));
+				p.setIdCliente(rs.getInt(2));
+				p.setSenha(rs.getString(3));
 
-				for (Categoria categoria : Categoria.values())
-					if (categoria.getNome().equals(rs.getString(3)))
-						p.setCategoria(categoria);
-
-				p.setDescricao(rs.getString(4));
-
-				for (Unidade unidade : Unidade.values())
-					if (unidade.getNome().equals(rs.getString(5)))
-						p.setUnidade(unidade);
-
-				p.setCusto(rs.getBigDecimal(6));
-				p.setMargemLucro(rs.getBigDecimal(7));
-				
 				list.add((T) p);
 			}
 
@@ -89,35 +77,23 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public <T> T consultar(Object produto) {
-		Produto newProduto = (Produto) produto;
+	public <T> T consultar(Object usuario) {
+		Usuario newUsuario = (Usuario) usuario;
 
 		Statement st;
-		Produto p = new Produto();
+		Usuario u = new Usuario();
 
 		try {
 			st = (Statement) conn.createStatement();
 
-			ResultSet rs = st.executeQuery(SQL_CONSULTAR + newProduto.getId());
+			ResultSet rs = st.executeQuery(SQL_CONSULTAR + newUsuario.getId());
 			if (rs.first()) {
 
-				p.setId(rs.getInt(1));
-				p.setCodBarras(rs.getString(2));
+				u.setId(rs.getInt(1));
+				u.setIdCliente(rs.getInt(2));
+				u.setSenha(rs.getString(3));
 
-				for (Categoria categoria : Categoria.values())
-					if (categoria.getNome().equals(rs.getString(3)))
-						p.setCategoria(categoria);
-
-				p.setDescricao(rs.getString(4));
-
-				for (Unidade unidade : Unidade.values())
-					if (unidade.getNome().equals(rs.getString(5)))
-						p.setUnidade(unidade);
-
-				p.setCusto(rs.getBigDecimal(6));
-				p.setMargemLucro(rs.getBigDecimal(7));
-				
-				return (T) p;
+				return (T) u;
 			}
 
 		} catch (SQLException e) {
@@ -128,24 +104,16 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public void inseriralterar(Object produto) {
-		Produto p = (Produto) produto;
+	public void inseriralterar(Object usuario) {
+		Usuario u = (Usuario) usuario;
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
-			ps.setInt(1, p.getId());
-			ps.setString(2, p.getCodBarras());
-			ps.setString(3, p.getCategoria().getNome());
-			ps.setString(4, p.getDescricao());
-			ps.setString(5, p.getUnidade().getNome());
-			ps.setBigDecimal(6, p.getCusto());
-			ps.setBigDecimal(7, p.getMargemLucro());
-			ps.setString(8, p.getCodBarras());
-			ps.setString(9, p.getCategoria().getNome());
-			ps.setString(10, p.getDescricao());
-			ps.setString(11, p.getUnidade().getNome());
-			ps.setBigDecimal(12, p.getCusto());
-			ps.setBigDecimal(13, p.getMargemLucro());
+			ps.setInt(1, u.getId());
+			ps.setInt(2, u.getIdCliente());
+			ps.setString(3, u.getSenha());
+			ps.setInt(4, u.getIdCliente());
+			ps.setString(5, u.getSenha());
 			
 			ps.executeUpdate();
 
