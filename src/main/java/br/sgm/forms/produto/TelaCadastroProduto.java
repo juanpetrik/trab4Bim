@@ -3,9 +3,10 @@ package br.sgm.forms.produto;
 import java.awt.BorderLayout;
 
 import br.sgm.forms.MolduraAbstrata;
-import br.sgm.forms.usuario.CadastroUsuario;
 
-public class TelaCadastroProduto extends MolduraAbstrata {
+public class TelaCadastroProduto extends MolduraAbstrata{
+	
+	private static final long serialVersionUID = 1L;
 
 	public TelaCadastroProduto() {
 		super();
@@ -13,7 +14,11 @@ public class TelaCadastroProduto extends MolduraAbstrata {
 
 	@Override
 	protected void configurarCentro() {
-		super.add(new CadastroProduto(), BorderLayout.CENTER);
+		CadastroProduto cadastroProduto = new CadastroProduto();
+		super.add(cadastroProduto, BorderLayout.CENTER);
+		
+		super.setAcaoSalvar(cadastroProduto.getAcaoSalvar());
+		super.setAcaoFechar(cadastroProduto.getAcaoFechar());
+		super.setAcaoExcluir(cadastroProduto.getAcaoExcluir());
 	}
-
 }

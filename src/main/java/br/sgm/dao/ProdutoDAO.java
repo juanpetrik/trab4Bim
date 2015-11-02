@@ -11,16 +11,15 @@ import br.sgm.conexao.ConexaoMysql;
 import br.sgm.enums.Genero;
 import br.sgm.enums.UF;
 import br.sgm.model.Cliente;
-import br.sgm.model.Produto;
 
 import com.mysql.jdbc.Statement;
 
-public class ClienteDAO extends DAO {
+public class ProdutoDAO extends DAO {
 
-	private static final String SQL_INSERIRALTERAR = "insert into clientes (id, nome, telefone, endereco, cidade, estado, email, genero) VALUES(?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update nome = ?, telefone = ?, endereco = ?, cidade = ?, estado = ?, email = ?, genero = ?;";
-	private static final String SQL_DELETAR = "delete from clientes where id = ?";
-	private static final String SQL_LISTAR = "select * from clientes";
-	private static final String SQL_CONSULTAR = "select * from clientes where id = ";
+	private static final String SQL_INSERIRALTERAR = "insert into produtos (id, codBarras, categoria, descricao, unidade, custo, margemLucro) values (?, ?, ?, ?, ?, ?, ?) on duplicate key update codBarras = ?, categoria = ?, descricao = ?, unidade = ?, custo = ?, margemLucro = ?";
+	private static final String SQL_DELETAR = "delete from produtos where id = ?";
+	private static final String SQL_LISTAR = "select * from produtos";
+	private static final String SQL_CONSULTAR = "select * from produtos where id = ";
 
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
@@ -30,8 +29,8 @@ public class ClienteDAO extends DAO {
 	}
 
 	@Override
-	public void deletar(Object produto) {
-		Produto c = (Produto) produto;
+	public void deletar(Object cliente) {
+		Cliente c = (Cliente) cliente;
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
@@ -45,7 +44,7 @@ public class ClienteDAO extends DAO {
 
 	@Override
 	public void alterar(Object cliente) {
-		//Coments
+		
 	}
 
 	@Override

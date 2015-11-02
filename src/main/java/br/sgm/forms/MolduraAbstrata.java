@@ -21,17 +21,6 @@ public abstract class MolduraAbstrata extends JPanel {
 
 	protected abstract void configurarCentro();
 
-	/*
-	 * public void setFecharAction(ActionListener action){
-	 * btnFechar.addActionListener(action); }
-	 * 
-	 * public void setSalvarAction(ActionListener action){
-	 * btnSalvar.addActionListener(action); }
-	 * 
-	 * public void setExcluirAction(ActionListener action){
-	 * btnExcluir.addActionListener(action); }
-	 */
-
 	/**
 	 * Create the panel.
 	 */
