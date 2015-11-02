@@ -17,6 +17,7 @@ import br.sgm.conexao.ConexaoMysql;
 import br.sgm.conexao.StartBD;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 import br.sgm.forms.produto.TelaCadastroProduto;
+import br.sgm.forms.usuario.TelaCadastroUsuario;
 
 public class TelaPrincipal extends JFrame {
 
@@ -74,6 +75,21 @@ public class TelaPrincipal extends JFrame {
 		mnNewMenu.add(mntmCliente);
 
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rios");
+		mntmUsurio.addActionListener(new ActionListener() {
+			private TelaCadastroUsuario telaCadastroUsuario;
+
+			public void actionPerformed(ActionEvent arg0) {
+				abrirCadastrodeClientes();
+			}
+
+			private void abrirCadastrodeClientes() {
+				if (telaCadastroUsuario == null) {
+					telaCadastroUsuario = new TelaCadastroUsuario();		
+					
+					tabbedPane.addTab("Cadastro de Usuários", telaCadastroUsuario);
+				}
+			}
+		});
 		mnNewMenu.add(mntmUsurio);
 
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
