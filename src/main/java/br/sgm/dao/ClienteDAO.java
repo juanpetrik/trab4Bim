@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.sgm.conexao.ConexaoMysql;
+import br.sgm.enums.Genero;
+import br.sgm.enums.UF;
 import br.sgm.model.Cliente;
 
 import com.mysql.jdbc.Statement;
@@ -17,12 +19,13 @@ public class ClienteDAO extends DAO {
 	private static final String SQL_INSERIRALTERAR = "insert into clientes (id, nome, telefone, endereco, cidade, estado, email, genero) VALUES(?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update nome = ?, telefone = ?, endereco = ?, cidade = ?, estado = ?, email = ?, genero = ?;";
 	private static final String SQL_DELETAR = "delete from clientes where id = ?";
 	private static final String SQL_LISTAR = "select * from clientes";
+	private static final String SQL_CONSULTAR = "select * from clientes where id = ";
 
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
 	@Override
 	public void inserir(Object cliente) {
-
+		// Usar o inserirAlterar
 	}
 
 	@Override
@@ -41,8 +44,7 @@ public class ClienteDAO extends DAO {
 
 	@Override
 	public void alterar(Object cliente) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -61,14 +63,23 @@ public class ClienteDAO extends DAO {
 				c.setTelefone(rs.getString(3));
 				c.setEndereco(rs.getString(4));
 				c.setCidade(rs.getString(5));
-				//c.setUf(rs.getString(6));
+				
+				for (UF uf : UF.values()) {
+					if (uf.getNome().equals(rs.getString(6)))
+						c.setUf(uf);
+				}
+				
 				c.setEmail(rs.getString(7));
-				//c.setGenero(rs.getString(8));
+				
+				for (Genero genero : Genero.values()) {
+					if (genero.getNome().equals(rs.getString(8)))
+						c.setGenero(genero);
+				}
+				
 				list.add((T) c);
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -77,7 +88,42 @@ public class ClienteDAO extends DAO {
 
 	@Override
 	public <T> T consultar(Object cliente) {
-		// TODO Auto-generated method stub
+		Cliente newCliente = (Cliente) cliente;
+		
+		Statement st;
+		Cliente c = new Cliente();
+		
+		try {
+			st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery(SQL_CONSULTAR + newCliente.getId());
+			if (rs.first()) {
+				
+				c.setId(rs.getInt(1));
+				c.setNome(rs.getString(2));
+				c.setTelefone(rs.getString(3));
+				c.setEndereco(rs.getString(4));
+				c.setCidade(rs.getString(5));
+				
+				for (UF uf : UF.values()) {
+					if (uf.getNome().equals(rs.getString(6)))
+						c.setUf(uf);
+				}
+				
+				c.setEmail(rs.getString(7));
+				
+				for (Genero genero : Genero.values()) {
+					if (genero.getNome().equals(rs.getString(8)))
+						c.setGenero(genero);
+				}
+				
+				return (T) c;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

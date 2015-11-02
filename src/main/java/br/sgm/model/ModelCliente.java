@@ -39,12 +39,11 @@ public class ModelCliente extends AbstractTableModel {
 		case 4:
 			return c.getCidade();
 		case 5:
-			return "null"; // c.getUf().getNome();
+			return c.getUf().getNome();
 		case 6:
 			return c.getEmail();
 		case 7:
-			return "null";
-			//c.getGenero().getNome();
+			return c.getGenero().getNome();
 		}
 		
 		return null;
