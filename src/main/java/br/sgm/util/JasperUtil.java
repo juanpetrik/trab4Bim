@@ -26,7 +26,7 @@ public class JasperUtil {
 			InputStream jasperTemplate = JasperUtil.class.getClass().getResourceAsStream(jasper);
 			
 			JasperPrint print = JasperFillManager.fillReport(jasperTemplate, map, ConexaoMysql.getConexaoBD());
-			saida = "c:\\" + nomeRelatorio + ".pdf";
+			saida = "C:\\Users\\jpspetrik\\Downloads\\" + nomeRelatorio + ".pdf";
 			JasperExportManager.exportReportToPdfFile(print, saida);
 			JOptionPane.showMessageDialog(null, "<html>Arquivo exportado para PDF!<br><br>A aplicação vai pedir"
 					+ " ao Sistema operacional <br>para abrir com o visualizador" + " padrão.");

@@ -19,7 +19,7 @@ public class ConexaoMysql {
 		dbName = "trab4bimoo";
 		driver = "com.mysql.jdbc.Driver";
 		userName = "root";
-		password = "";
+		password = "root";
 		try {
 			Class.forName(driver).newInstance();
 			this.conn = DriverManager.getConnection(url + dbName, userName, password);

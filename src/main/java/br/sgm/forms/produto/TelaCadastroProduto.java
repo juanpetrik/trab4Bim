@@ -18,7 +18,6 @@ public class TelaCadastroProduto extends MolduraAbstrata{
 		super.add(cadastroProduto, BorderLayout.CENTER);
 		
 		super.setAcaoSalvar(cadastroProduto.getAcaoSalvar());
-		super.setAcaoFechar(cadastroProduto.getAcaoFechar());
 		super.setAcaoExcluir(cadastroProduto.getAcaoExcluir());
 	}
 }

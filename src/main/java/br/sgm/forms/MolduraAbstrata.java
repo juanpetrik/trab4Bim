@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,6 +22,10 @@ public abstract class MolduraAbstrata extends JPanel {
 
 	protected abstract void configurarCentro();
 
+	public void setFechar(ActionListener action){
+		btnFechar.addActionListener(action);
+	}
+	
 	/**
 	 * Create the panel.
 	 */
@@ -73,7 +78,7 @@ public abstract class MolduraAbstrata extends JPanel {
 		btnExcluir.addActionListener(e -> acao.run());
 	}
 	
-	public void setAcaoFechar(Runnable acao) {
-		btnFechar.addActionListener(e -> acao.run());
+	public void setAcaoFechar(ActionListener acao) {
+		btnFechar.addActionListener(acao);
 	}
 }

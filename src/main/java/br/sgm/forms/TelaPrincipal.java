@@ -70,6 +70,13 @@ public class TelaPrincipal extends JFrame {
 				if (telaCadastroCliente == null) {
 					telaCadastroCliente = new TelaCadastroCliente();
 
+					ActionListener action = e -> {
+						tabbedPane.remove(telaCadastroCliente);
+						telaCadastroCliente = null;
+					};
+
+					telaCadastroCliente.setAcaoFechar(action);
+
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
 				}
 			}
@@ -87,6 +94,13 @@ public class TelaPrincipal extends JFrame {
 			private void abrirCadastrodeClientes() {
 				if (telaCadastroUsuario == null) {
 					telaCadastroUsuario = new TelaCadastroUsuario();
+
+					ActionListener action = e -> {
+						tabbedPane.remove(telaCadastroUsuario);
+						telaCadastroUsuario = null;
+					};
+
+					telaCadastroUsuario.setAcaoFechar(action);
 
 					tabbedPane.addTab("Cadastro de Usuários", telaCadastroUsuario);
 				}
@@ -106,15 +120,22 @@ public class TelaPrincipal extends JFrame {
 				if (telaCadastroProduto == null) {
 					telaCadastroProduto = new TelaCadastroProduto();
 
+					ActionListener action = e -> {
+						tabbedPane.remove(telaCadastroProduto);
+						telaCadastroProduto = null;
+					};
+					
+					telaCadastroProduto.setAcaoFechar(action);
+
 					tabbedPane.addTab("Cadastro de Produtos", telaCadastroProduto);
 				}
 			}
 		});
 		mnNewMenu.add(mntmProdutos);
-		
+
 		JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
 		menuBar.add(mnRelatrios);
-		
+
 		JMenuItem mntmClientes = new JMenuItem("Clientes");
 		mntmClientes.addActionListener(new ActionListener() {
 			private TelaRelatorioCliente telaRelatorioCliente;
@@ -127,6 +148,12 @@ public class TelaPrincipal extends JFrame {
 				if (telaRelatorioCliente == null) {
 					telaRelatorioCliente = new TelaRelatorioCliente();
 
+					ActionListener action = e -> {
+						tabbedPane.remove(telaRelatorioCliente);
+						telaRelatorioCliente = null;
+					};
+					telaRelatorioCliente.setAcaoFechar(action);
+
 					tabbedPane.addTab("Relatório de Clientes", telaRelatorioCliente);
 				}
 			}
@@ -136,7 +163,7 @@ public class TelaPrincipal extends JFrame {
 		JMenu mnVenda = new JMenu("Faturamento");
 
 		menuBar.add(mnVenda);
-		
+
 		JMenuItem mntmVenda = new JMenuItem("Venda");
 		mntmVenda.addActionListener(new ActionListener() {
 			private TelaVenda telaVenda;

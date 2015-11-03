@@ -17,8 +17,6 @@ public class TelaRelatorioCliente extends MolduraAbstrataRelatorio{
 	protected void configurarCentro() {
 		RelatorioCliente relatorioCliente = new RelatorioCliente();
 		super.add(relatorioCliente, BorderLayout.CENTER);
-		
 		super.setAcaoSalvar(relatorioCliente.getAcaoSalvar());
-		super.setAcaoFechar(relatorioCliente.getAcaoFechar());
 	}
 }

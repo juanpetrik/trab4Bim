@@ -65,33 +65,35 @@ public class RelatorioCliente extends JPanel {
 		txtCidade.setColumns(10);
 
 		cbUF.addItem("");
-		
+
 		// Adicionando as Uf's no combobox..
 		for (UF uf : UF.values())
 			cbUF.addItem(uf);
 
-		//atualizarTabela();
+		// atualizarTabela();
 	}
 
 	public Runnable getAcaoSalvar() {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				UF uf = null;
-				String cidade = null;
+				String cidade = "";
 				String SQL = "select * from clientes where 1=1 ";
-				
-				uf = (UF) cbUF.getSelectedItem();
-				cidade = txtCidade.getText();
-				
+
+				if (cbUF.getSelectedIndex() > 0)
+					uf = (UF) cbUF.getSelectedItem();
+
+				if (!txtCidade.getText().isEmpty())
+					cidade = txtCidade.getText();
+
 				if (uf != null)
 					SQL += "and estado = \"" + uf.getNome() + "\" ";
-					
+
 				if (!cidade.isEmpty())
 					SQL += "and cidade like \"%" + cidade + "%\" ";
-					
-				
-				JasperUtil.geraRelatorioEmPdfConsulta(SQL, "/RelatorioCliente.jasper", "nomequalquer");
-				
+
+				JasperUtil.geraRelatorioEmPdfConsulta(SQL, "/RelatorioCliente.jasper", "RelatorioClientes");
+
 			}
 		};
 

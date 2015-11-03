@@ -18,7 +18,6 @@ public class TelaCadastroUsuario extends MolduraAbstrata{
 		super.add(cadastroCliente, BorderLayout.CENTER);
 		
 		super.setAcaoSalvar(cadastroCliente.getAcaoSalvar());
-		super.setAcaoFechar(cadastroCliente.getAcaoFechar());
 		super.setAcaoExcluir(cadastroCliente.getAcaoExcluir());
 	}
 }

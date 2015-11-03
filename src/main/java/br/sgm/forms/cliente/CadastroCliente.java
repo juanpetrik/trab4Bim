@@ -330,10 +330,6 @@ public class CadastroCliente extends JPanel {
 		model.fireTableDataChanged();
 	}
 
-	public Runnable getAcaoFechar() {
-		return null;
-	}
-
 	public Runnable getAcaoExcluir() {
 		Runnable runnable = new Runnable() {
 			public void run() {
