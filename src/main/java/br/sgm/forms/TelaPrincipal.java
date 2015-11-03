@@ -18,6 +18,7 @@ import br.sgm.conexao.StartBD;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 import br.sgm.forms.produto.TelaCadastroProduto;
 import br.sgm.forms.relatorioCliente.TelaRelatorioCliente;
+import br.sgm.forms.relatorioProduto.TelaRelatorioProduto;
 import br.sgm.forms.usuario.TelaCadastroUsuario;
 import br.sgm.forms.venda.TelaVenda;
 
@@ -159,6 +160,30 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		mnRelatrios.add(mntmClientes);
+		
+		JMenuItem mntmProdutos_1 = new JMenuItem("Produtos");
+		mntmProdutos_1.addActionListener(new ActionListener() {
+			private TelaRelatorioProduto telaRelatorioProduto;
+
+			public void actionPerformed(ActionEvent arg0) {
+				abrirRelatorioClientes();
+			}
+
+			private void abrirRelatorioClientes() {
+				if (telaRelatorioProduto == null) {
+					telaRelatorioProduto = new TelaRelatorioProduto();
+
+					ActionListener action = e -> {
+						tabbedPane.remove(telaRelatorioProduto);
+						telaRelatorioProduto = null;
+					};
+					telaRelatorioProduto.setAcaoFechar(action);
+
+					tabbedPane.addTab("Relatório de Produtos", telaRelatorioProduto);
+				}
+			}
+		});
+		mnRelatrios.add(mntmProdutos_1);
 
 		JMenu mnVenda = new JMenu("Faturamento");
 
