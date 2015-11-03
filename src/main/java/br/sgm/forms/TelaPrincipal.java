@@ -17,6 +17,7 @@ import br.sgm.conexao.ConexaoMysql;
 import br.sgm.conexao.StartBD;
 import br.sgm.forms.cliente.TelaCadastroCliente;
 import br.sgm.forms.produto.TelaCadastroProduto;
+import br.sgm.forms.relatorioCliente.TelaRelatorioCliente;
 import br.sgm.forms.usuario.TelaCadastroUsuario;
 import br.sgm.forms.venda.TelaVenda;
 
@@ -110,6 +111,27 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmProdutos);
+		
+		JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
+		menuBar.add(mnRelatrios);
+		
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			private TelaRelatorioCliente telaRelatorioCliente;
+
+			public void actionPerformed(ActionEvent arg0) {
+				abrirRelatorioClientes();
+			}
+
+			private void abrirRelatorioClientes() {
+				if (telaRelatorioCliente == null) {
+					telaRelatorioCliente = new TelaRelatorioCliente();
+
+					tabbedPane.addTab("Relatório de Clientes", telaRelatorioCliente);
+				}
+			}
+		});
+		mnRelatrios.add(mntmClientes);
 
 		JMenu mnVenda = new JMenu("Faturamento");
 
