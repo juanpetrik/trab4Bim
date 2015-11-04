@@ -31,8 +31,31 @@ CREATE TABLE `produtos` (
   `codBarras` VARCHAR(15) DEFAULT NULL,
   `categoria` VARCHAR(50) DEFAULT NULL,
   `descricao` VARCHAR(100) DEFAULT NULL,
-  `unidade` CHAR(3) DEFAULT NULL,
-  `custo` DECIMAL(10,2) DEFAULT NULL,
-  `margemLucro` DECIMAL(10,2) DEFAULT NULL,
+  `unidade` CHAR(3) NOT NULL,
+  `custo` DECIMAL(10,2) NOT NULL,
+  `margemLucro` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+
+/* Tabela de vendas (capa) */
+DROP TABLE IF EXISTS vendas;
+CREATE TABLE `vendas` (
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `idCliente` INT(10) DEFAULT NULL,
+  `nomeCliente` VARCHAR(100) DEFAULT NULL,
+  `vlrTotalVenda` DECIMAL(10,2) NOT NULL,
+  `dtLancamento` DATE,
+  `hrLancamento` DATETIME,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+/* Tabela de itens da vendas */
+DROP TABLE IF EXISTS itensvendas;
+CREATE TABLE `itensvendas` (
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `idVenda` INT(10) NOT NULL ,
+  `vlrProduto` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+

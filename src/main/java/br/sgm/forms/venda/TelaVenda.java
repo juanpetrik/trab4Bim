@@ -23,9 +23,9 @@ public class TelaVenda extends JPanel {
 	public TelaVenda() {
 		super();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{68, 98, 89, 89, 20, 60, 0};
+		gridBagLayout.columnWidths = new int[]{68, 98, 89, 89, 20, 60, 110, 0};
 		gridBagLayout.rowHeights = new int[]{20, 20, 23, 254, 23, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -58,7 +58,7 @@ public class TelaVenda extends JPanel {
 		GridBagConstraints gbc_txtNomeCliente = new GridBagConstraints();
 		gbc_txtNomeCliente.anchor = GridBagConstraints.NORTH;
 		gbc_txtNomeCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNomeCliente.insets = new Insets(0, 0, 5, 0);
+		gbc_txtNomeCliente.insets = new Insets(0, 0, 5, 5);
 		gbc_txtNomeCliente.gridwidth = 5;
 		gbc_txtNomeCliente.gridx = 1;
 		gbc_txtNomeCliente.gridy = 1;
@@ -86,7 +86,7 @@ public class TelaVenda extends JPanel {
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.NORTH;
 		gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 5;
 		gbc_btnNewButton_2.gridy = 2;
 		add(btnNewButton_2, gbc_btnNewButton_2);
@@ -94,7 +94,7 @@ public class TelaVenda extends JPanel {
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.gridwidth = 6;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 3;
@@ -127,6 +127,7 @@ public class TelaVenda extends JPanel {
 		
 		JButton btnNewButton = new JButton("Fechar");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton.gridwidth = 2;
