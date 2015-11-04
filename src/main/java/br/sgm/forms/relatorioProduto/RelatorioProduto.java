@@ -92,8 +92,7 @@ public class RelatorioProduto extends JPanel {
 				if (!margemLucro.isEmpty())
 					SQL += "and margemLucro like \"%" + margemLucro + "%\" ";
 
-				JasperUtil.geraRelatorioEmPdfConsulta(SQL, "/RelatorioCliente.jasper", "RelatorioClientes");
-
+				JasperUtil.geraRelatorioEmPdfConsulta(SQL, "/RelatorioProduto.jasper", "RelatorioProdutos");
 			}
 		};
 

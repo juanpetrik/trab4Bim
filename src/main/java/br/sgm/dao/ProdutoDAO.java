@@ -9,10 +9,7 @@ import java.util.List;
 
 import br.sgm.conexao.ConexaoMysql;
 import br.sgm.enums.Categoria;
-import br.sgm.enums.Genero;
-import br.sgm.enums.UF;
 import br.sgm.enums.Unidade;
-import br.sgm.model.Cliente;
 import br.sgm.model.Produto;
 
 import com.mysql.jdbc.Statement;
