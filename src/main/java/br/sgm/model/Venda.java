@@ -12,4 +12,60 @@ public class Venda {
 	private BigDecimal vlrTotal;
 	private BigDecimal vlrTroco;
 	private List<Produto> produtos;
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getIdCliente() {
+		return idCliente;
+	}
+	
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+	
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
+	}
+	
+	public Date getData() {
+		return data;
+	}
+	
+	public void setData(Date data) {
+		this.data = data;
+	}
+	
+	public BigDecimal getVlrTotal() {
+		return vlrTotal;
+	}
+	
+	public void setVlrTotal(BigDecimal vlrTotal) {
+		this.vlrTotal = vlrTotal;
+	}
+	
+	public BigDecimal getVlrTroco() {
+		return vlrTroco;
+	}
+	
+	public void setVlrTroco(BigDecimal vlrTroco) {
+		this.vlrTroco = vlrTroco;
+	}
+	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+	
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 }

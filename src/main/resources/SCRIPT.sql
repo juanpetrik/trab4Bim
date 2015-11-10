@@ -55,7 +55,11 @@ DROP TABLE IF EXISTS itensvendas;
 CREATE TABLE `itensvendas` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `idVenda` INT(10) NOT NULL ,
+  `categoria` VARCHAR(50) DEFAULT NULL,
+  `descricao` VARCHAR(100) DEFAULT NULL,
   `vlrProduto` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`), 
+  FOREIGN KEY (idVenda) REFERENCES vendas(id)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
 

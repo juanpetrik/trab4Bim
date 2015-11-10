@@ -201,6 +201,8 @@ public class TelaPrincipal extends JFrame {
 				if (telaVenda == null) {
 					telaVenda = new TelaVenda();
 
+					telaVenda.setLocation((telaVenda.WIDTH - telaVenda.getSize().width)/2, (telaVenda.HEIGHT - telaVenda.getSize().height)/2);
+					
 					tabbedPane.addTab("Venda", telaVenda);
 				}
 			}
