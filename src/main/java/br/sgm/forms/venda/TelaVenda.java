@@ -1,18 +1,19 @@
 package br.sgm.forms.venda;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Font;
+import javax.swing.JTextField;
 
 public class TelaVenda extends JPanel {
 	private JTable tableProdutos;
@@ -31,8 +32,8 @@ public class TelaVenda extends JPanel {
 	public TelaVenda() {
 		super();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{58, 132, 63, 64, 79, 77, 0, 84, 0};
-		gridBagLayout.rowHeights = new int[]{22, 40, 20, 31, 244, 0, 23, 0};
+		gridBagLayout.columnWidths = new int[]{58, 132, 63, 64, 79, 77, 0, 79, 0};
+		gridBagLayout.rowHeights = new int[]{22, 28, 20, 24, 244, 0, 23, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -81,7 +82,7 @@ public class TelaVenda extends JPanel {
 		
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
+		gbc_textField.gridwidth = 5;
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.gridx = 1;
@@ -161,8 +162,8 @@ public class TelaVenda extends JPanel {
 		
 		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
-		gbc_lblDescrio.anchor = GridBagConstraints.EAST;
 		gbc_lblDescrio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescrio.anchor = GridBagConstraints.EAST;
 		gbc_lblDescrio.gridx = 0;
 		gbc_lblDescrio.gridy = 3;
 		add(lblDescrio, gbc_lblDescrio);
@@ -215,6 +216,7 @@ public class TelaVenda extends JPanel {
 		add(textField_7, gbc_textField_7);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/icons/cancelar.png")));
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
@@ -223,6 +225,7 @@ public class TelaVenda extends JPanel {
 		add(btnCancelar, gbc_btnCancelar);
 		
 		JButton btnNewButton_1 = new JButton("Finalizar");
+		btnNewButton_1.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_1.anchor = GridBagConstraints.NORTHEAST;
@@ -231,6 +234,7 @@ public class TelaVenda extends JPanel {
 		add(btnNewButton_1, gbc_btnNewButton_1);
 		
 		JButton btnNewButton = new JButton("Fechar");
+		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/icons/fechar.png")));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
