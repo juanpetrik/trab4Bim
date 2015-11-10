@@ -2,6 +2,8 @@ package br.sgm.forms;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -201,9 +203,27 @@ public class TelaPrincipal extends JFrame {
 				if (telaVenda == null) {
 					telaVenda = new TelaVenda();
 
-					telaVenda.setLocation((telaVenda.WIDTH - telaVenda.getSize().width)/2, (telaVenda.HEIGHT - telaVenda.getSize().height)/2);
+					JPanel newPainel = new JPanel(); 
+					{GridBagLayout gridBagLayout = new GridBagLayout();
+					gridBagLayout.columnWidths = new int[]{0, 0};
+					gridBagLayout.rowHeights = new int[]{0, 0};
+					gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+					gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+					newPainel.setLayout(gridBagLayout);
 					
-					tabbedPane.addTab("Venda", telaVenda);
+					
+					GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+					gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
+					gbc_btnNewButton.gridx = 0;
+					gbc_btnNewButton.gridy = 0;
+					newPainel.add(telaVenda, gbc_btnNewButton);}
+					
+					
+					tabbedPane.addTab("Venda", newPainel);
+					
+					
+					//telaVenda.setLocation((tabbedPane.WIDTH - tabbedPane.getSize().width)/2, (tabbedPane.HEIGHT - tabbedPane.getSize().height)/2);
+					
 				}
 			}
 		});

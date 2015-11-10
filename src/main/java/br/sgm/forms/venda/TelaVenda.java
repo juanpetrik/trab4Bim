@@ -237,6 +237,6 @@ public class TelaVenda extends JPanel {
 		gbc_btnNewButton.gridx = 7;
 		gbc_btnNewButton.gridy = 6;
 		add(btnNewButton, gbc_btnNewButton);
-  
+
 	}
 }
