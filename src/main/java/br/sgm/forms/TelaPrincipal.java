@@ -81,6 +81,7 @@ public class TelaPrincipal extends JFrame {
 					telaCadastroCliente.setAcaoFechar(action);
 
 					tabbedPane.addTab("Cadastro de Clientes", telaCadastroCliente);
+					focus();
 				}
 			}
 		});
@@ -106,6 +107,7 @@ public class TelaPrincipal extends JFrame {
 					telaCadastroUsuario.setAcaoFechar(action);
 
 					tabbedPane.addTab("Cadastro de Usuários", telaCadastroUsuario);
+					focus();
 				}
 			}
 		});
@@ -131,6 +133,7 @@ public class TelaPrincipal extends JFrame {
 					telaCadastroProduto.setAcaoFechar(action);
 
 					tabbedPane.addTab("Cadastro de Produtos", telaCadastroProduto);
+					focus();
 				}
 			}
 		});
@@ -158,6 +161,7 @@ public class TelaPrincipal extends JFrame {
 					telaRelatorioCliente.setAcaoFechar(action);
 
 					tabbedPane.addTab("Relatório de Clientes", telaRelatorioCliente);
+					focus();
 				}
 			}
 		});
@@ -182,6 +186,7 @@ public class TelaPrincipal extends JFrame {
 					telaRelatorioProduto.setAcaoFechar(action);
 
 					tabbedPane.addTab("Relatório de Produtos", telaRelatorioProduto);
+					focus();
 				}
 			}
 		});
@@ -218,12 +223,15 @@ public class TelaPrincipal extends JFrame {
 					gbc_btnNewButton.gridy = 0;
 					newPainel.add(telaVenda, gbc_btnNewButton);}
 					
+					ActionListener action = e -> {
+						tabbedPane.remove(newPainel);
+						telaVenda = null;
+					};
 					
+					telaVenda.setAcaoFechar(action);
+
 					tabbedPane.addTab("Venda", newPainel);
-					
-					
-					//telaVenda.setLocation((tabbedPane.WIDTH - tabbedPane.getSize().width)/2, (tabbedPane.HEIGHT - tabbedPane.getSize().height)/2);
-					
+					focus();
 				}
 			}
 		});
@@ -248,6 +256,10 @@ public class TelaPrincipal extends JFrame {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+	}
+
+	protected void focus() {
+		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() -1);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ public class TelaVenda extends JPanel {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField txtR;
+	private JButton btnFechar;
 
 	/**
 	 * Create the panel.
@@ -225,23 +227,27 @@ public class TelaVenda extends JPanel {
 		gbc_btnCancelar.gridy = 7;
 		add(btnCancelar, gbc_btnCancelar);
 		
-		JButton btnNewButton_1 = new JButton("Finalizar");
-		btnNewButton_1.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnNewButton_1.gridx = 6;
-		gbc_btnNewButton_1.gridy = 7;
-		add(btnNewButton_1, gbc_btnNewButton_1);
+		JButton btnFinalizar = new JButton("Finalizar");
+		btnFinalizar.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
+		GridBagConstraints gbc_btnFinalizar = new GridBagConstraints();
+		gbc_btnFinalizar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnFinalizar.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnFinalizar.gridx = 6;
+		gbc_btnFinalizar.gridy = 7;
+		add(btnFinalizar, gbc_btnFinalizar);
 		
-		JButton btnNewButton = new JButton("Fechar");
-		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/icons/fechar.png")));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
-		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton.gridx = 7;
-		gbc_btnNewButton.gridy = 7;
-		add(btnNewButton, gbc_btnNewButton);
+		btnFechar = new JButton("Fechar");
+		btnFechar.setIcon(new ImageIcon(getClass().getResource("/icons/fechar.png")));
+		GridBagConstraints gbc_btnFechar = new GridBagConstraints();
+		gbc_btnFechar.anchor = GridBagConstraints.NORTH;
+		gbc_btnFechar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnFechar.gridx = 7;
+		gbc_btnFechar.gridy = 7;
+		add(btnFechar, gbc_btnFechar);
 
+	}
+
+	public void setAcaoFechar(ActionListener action) {
+		btnFechar.addActionListener(action);
 	}
 }
