@@ -6,12 +6,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,6 +23,7 @@ import br.sgm.dao.ClienteDAO;
 import br.sgm.model.Cliente;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 
 public class TelaVenda extends JPanel {
 	private JTable tableProdutos;
@@ -37,6 +40,7 @@ public class TelaVenda extends JPanel {
 	private List<Object> listar;
 	private JTextField textField;
 	private JTextField textField_4;
+	private JTextField txtIDCliente;
 
 	/**
 	 * Create the panel.
@@ -46,7 +50,7 @@ public class TelaVenda extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{58, 132, 63, 64, 79, 77, 0, 79, 0};
 		gridBagLayout.rowHeights = new int[]{22, 28, 20, 24, 244, 0, 24, 23, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -58,24 +62,28 @@ public class TelaVenda extends JPanel {
 		gbc_lblIDCliente.gridy = 0;
 		add(lblIDCliente, gbc_lblIDCliente);
 		
-		JComboBox cbIDCliente = new JComboBox();
-		cbIDCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		txtIDCliente = new JTextField();
+		txtIDCliente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+					getCliente();
+				}
 				
-				Cliente c;
-				c = (Cliente) listar.get(cbIDCliente.getSelectedIndex());
-				txtNome.setText(c.getNome());
-				txtTelefone.setText(c.getTelefone());
+				if (key.getKeyCode() == KeyEvent.VK_F2) {
+					consultarCliente();
+				}
 				
 			}
 		});
-		GridBagConstraints gbc_cbIDCliente = new GridBagConstraints();
-		gbc_cbIDCliente.anchor = GridBagConstraints.NORTH;
-		gbc_cbIDCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbIDCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_cbIDCliente.gridx = 1;
-		gbc_cbIDCliente.gridy = 0;
-		add(cbIDCliente, gbc_cbIDCliente);
+		
+		txtIDCliente.setColumns(10);
+		GridBagConstraints gbc_txtIDCliente = new GridBagConstraints();
+		gbc_txtIDCliente.insets = new Insets(0, 0, 5, 5);
+		gbc_txtIDCliente.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtIDCliente.gridx = 1;
+		gbc_txtIDCliente.gridy = 0;
+		add(txtIDCliente, gbc_txtIDCliente);
 		
 		JLabel lblTelefone = new JLabel("Telefone");
 		GridBagConstraints gbc_lblTelefone = new GridBagConstraints();
@@ -308,19 +316,45 @@ public class TelaVenda extends JPanel {
 		gbc_btnFechar.gridx = 7;
 		gbc_btnFechar.gridy = 7;
 		add(btnFechar, gbc_btnFechar);
-		
-		
-		// Adicionando os clientes no combobox..
-		listar = daoCliente.listar(new Cliente());
-		for (Object obj : listar) {
-			Cliente c;
-			c = (Cliente) obj;
-			
-			cbIDCliente.addItem(c.getId());
-		}
-		
-		cbIDCliente.actionPerformed(null);
+	}
 
+	//Método que vai pegar um único cliente do banco..
+	protected void getCliente() {
+		if (txtIDCliente.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe uma ID para consultar");
+		} else {
+			int id = Integer.parseInt(txtIDCliente.getText());
+
+			Cliente c = new Cliente();
+			c.setId(id);
+
+			Cliente cliente = daoCliente.consultar(c);
+
+			if (cliente != null) {
+				moveDadosClienteToForm(cliente);
+			} else {
+				JOptionPane.showMessageDialog(null, "Nenhum cliente foi encontrado");
+				limparDadosCliente();
+			}
+		}
+	}
+
+	// Método que limpa os dados do cliente da tela..
+	private void limparDadosCliente() {
+		txtIDCliente.setText("");
+		txtNome.setText("");
+		txtTelefone.setText("");
+	}
+
+	// Método que joga os dados de um cliente do objeto para tela..
+	private void moveDadosClienteToForm(Cliente cliente) {
+		txtNome.setText(cliente.getNome());
+		txtTelefone.setText(cliente.getTelefone());
+	}
+
+	// Método que vai abrir a consulta de clientes..
+	protected void consultarCliente() {
+		
 	}
 
 	public void setAcaoFechar(ActionListener action) {
