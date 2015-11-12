@@ -196,7 +196,7 @@ public class CadastroUsuario extends JPanel {
 		});
 		scrollPane.setViewportView(tableUsuarios);
 
-		// Adicionando as UF's no combobox..
+		// Adicionando os clientes no combobox..
 		listar = daoCliente.listar(new Cliente());
 		for (Object obj : listar) {
 			Cliente c;

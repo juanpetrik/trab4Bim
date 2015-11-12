@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,17 +17,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import br.sgm.dao.ClienteDAO;
+import br.sgm.model.Cliente;
+
+import java.awt.event.ActionEvent;
+
 public class TelaVenda extends JPanel {
 	private JTable tableProdutos;
-	private JTextField textField;
+	private JTextField txtNome;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField txtTelefone;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField txtR;
 	private JButton btnFechar;
+	private ClienteDAO daoCliente = new ClienteDAO();
+	private List<Object> listar;
+	private JTextField textField;
+	private JTextField textField_4;
 
 	/**
 	 * Create the panel.
@@ -36,7 +46,7 @@ public class TelaVenda extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{58, 132, 63, 64, 79, 77, 0, 79, 0};
 		gridBagLayout.rowHeights = new int[]{22, 28, 20, 24, 244, 0, 24, 23, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -49,6 +59,16 @@ public class TelaVenda extends JPanel {
 		add(lblIDCliente, gbc_lblIDCliente);
 		
 		JComboBox cbIDCliente = new JComboBox();
+		cbIDCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Cliente c;
+				c = (Cliente) listar.get(cbIDCliente.getSelectedIndex());
+				txtNome.setText(c.getNome());
+				txtTelefone.setText(c.getTelefone());
+				
+			}
+		});
 		GridBagConstraints gbc_cbIDCliente = new GridBagConstraints();
 		gbc_cbIDCliente.anchor = GridBagConstraints.NORTH;
 		gbc_cbIDCliente.fill = GridBagConstraints.HORIZONTAL;
@@ -65,14 +85,15 @@ public class TelaVenda extends JPanel {
 		gbc_lblTelefone.gridy = 0;
 		add(lblTelefone, gbc_lblTelefone);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 4;
-		gbc_textField_4.gridy = 0;
-		add(textField_4, gbc_textField_4);
+		txtTelefone = new JTextField();
+		txtTelefone.setEditable(false);
+		txtTelefone.setColumns(10);
+		GridBagConstraints gbc_txtTelefone = new GridBagConstraints();
+		gbc_txtTelefone.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTelefone.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTelefone.gridx = 4;
+		gbc_txtTelefone.gridy = 0;
+		add(txtTelefone, gbc_txtTelefone);
 		
 		JLabel lblNomeCliente = new JLabel("Nome Cliente");
 		GridBagConstraints gbc_lblNomeCliente = new GridBagConstraints();
@@ -82,15 +103,16 @@ public class TelaVenda extends JPanel {
 		gbc_lblNomeCliente.gridy = 1;
 		add(lblNomeCliente, gbc_lblNomeCliente);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 5;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setEditable(false);
+		GridBagConstraints gbc_txtNome = new GridBagConstraints();
+		gbc_txtNome.gridwidth = 5;
+		gbc_txtNome.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNome.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNome.gridx = 1;
+		gbc_txtNome.gridy = 1;
+		add(txtNome, gbc_txtNome);
+		txtNome.setColumns(10);
 		
 		JLabel lblProduto = new JLabel("Cod Barras");
 		GridBagConstraints gbc_lblProduto = new GridBagConstraints();
@@ -198,7 +220,7 @@ public class TelaVenda extends JPanel {
 		scrollPane.setViewportView(tableProdutos);
 		
 		JLabel lblValorTotal = new JLabel("Valor Total");
-		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
 		gbc_lblValorTotal.anchor = GridBagConstraints.EAST;
 		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
@@ -208,7 +230,7 @@ public class TelaVenda extends JPanel {
 		
 		txtR = new JTextField();
 		txtR.setText("R$ 00.00");
-		txtR.setFont(new Font("Tahoma", Font.BOLD, 22));
+		txtR.setFont(new Font("Tahoma", Font.BOLD, 18));
 		txtR.setColumns(10);
 		GridBagConstraints gbc_txtR = new GridBagConstraints();
 		gbc_txtR.gridwidth = 2;
@@ -217,6 +239,48 @@ public class TelaVenda extends JPanel {
 		gbc_txtR.gridx = 6;
 		gbc_txtR.gridy = 5;
 		add(txtR, gbc_txtR);
+		
+		JLabel lblTroco = new JLabel("Troco");
+		lblTroco.setFont(new Font("Tahoma", Font.BOLD, 18));
+		GridBagConstraints gbc_lblTroco = new GridBagConstraints();
+		gbc_lblTroco.anchor = GridBagConstraints.EAST;
+		gbc_lblTroco.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTroco.gridx = 1;
+		gbc_lblTroco.gridy = 6;
+		add(lblTroco, gbc_lblTroco);
+		
+		textField_4 = new JTextField();
+		textField_4.setText("R$ 00.00");
+		textField_4.setFont(new Font("Tahoma", Font.BOLD, 18));
+		textField_4.setColumns(10);
+		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+		gbc_textField_4.gridwidth = 2;
+		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_4.gridx = 2;
+		gbc_textField_4.gridy = 6;
+		add(textField_4, gbc_textField_4);
+		
+		JLabel lblValorPagamento = new JLabel("Valor Pagamento");
+		lblValorPagamento.setFont(new Font("Tahoma", Font.BOLD, 18));
+		GridBagConstraints gbc_lblValorPagamento = new GridBagConstraints();
+		gbc_lblValorPagamento.anchor = GridBagConstraints.EAST;
+		gbc_lblValorPagamento.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValorPagamento.gridx = 5;
+		gbc_lblValorPagamento.gridy = 6;
+		add(lblValorPagamento, gbc_lblValorPagamento);
+		
+		textField = new JTextField();
+		textField.setText("R$ 00.00");
+		textField.setFont(new Font("Tahoma", Font.BOLD, 18));
+		textField.setColumns(10);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 2;
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 6;
+		gbc_textField.gridy = 6;
+		add(textField, gbc_textField);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/icons/cancelar.png")));
@@ -244,6 +308,18 @@ public class TelaVenda extends JPanel {
 		gbc_btnFechar.gridx = 7;
 		gbc_btnFechar.gridy = 7;
 		add(btnFechar, gbc_btnFechar);
+		
+		
+		// Adicionando os clientes no combobox..
+		listar = daoCliente.listar(new Cliente());
+		for (Object obj : listar) {
+			Cliente c;
+			c = (Cliente) obj;
+			
+			cbIDCliente.addItem(c.getId());
+		}
+		
+		cbIDCliente.actionPerformed(null);
 
 	}
 
