@@ -15,6 +15,18 @@ CREATE TABLE `clientes` (
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('1','JOAO FERNANDO','4599256859','ENDEREÇO DE TESTE','CASCAVEL','PR','EMAILDETESTE@GMAIL.COM','M');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('2','CAROLINE DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('3','DANIEL DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('4','PEDRO DA LUZ','4589849685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('5','MARCELLI RIBEIRO','4588823485','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('6','DANIELA DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('7','ANTONIA DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('8','PEDRINHA DA SILVA','4583459685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('9','JENIFER MARCELLE','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('10','JOAO DA SILVA','4588456685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+
+
 /* Tabela de usuarios */
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE `usuarios` (
@@ -36,6 +48,17 @@ CREATE TABLE `produtos` (
   `margemLucro` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('1','7896026300889','Limpeza','SABÃO EM PÓ','CX','5.99','5');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('2','7895651561516','Frutas','MAÇA','UN','2.99','1');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('3','7893453453453','Frutas','UVA','KG','3.99','7');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('4','7895651654165','Frutas','PÊRA','KG','4.99','8');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('5','7896516165161','Frutas','BANANA','KG','1.49','9');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('6','7895615161516','Limpeza','AMACIANTE','UN','6.99','7');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('7','7896156161561','Limpeza','DETERGENTE','UN','1.29','3');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('8','7895165161651','Limpeza','VASSOURA','UN','10.45','10');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('9','7896219841519','Limpeza','MULTIUSO VEJA','UN','3.99','7');
+insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('10','7898219822981','Limpeza','PALHA DE AÇO','UN','1.99','2');
 
 
 /* Tabela de vendas (capa) */

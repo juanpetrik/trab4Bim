@@ -3,7 +3,8 @@ package br.sgm.enums;
 public enum Unidade {
 	PC("PC"),
 	UN("UN"),
-	CX("CX");
+	CX("CX"),
+	KG("KG");
 	
 	private String nome;
 	
