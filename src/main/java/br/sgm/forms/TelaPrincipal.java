@@ -17,8 +17,8 @@ import javax.swing.border.EmptyBorder;
 
 import br.sgm.conexao.ConexaoMysql;
 import br.sgm.conexao.StartBD;
-import br.sgm.forms.cliente.TelaCadastroCliente;
-import br.sgm.forms.produto.TelaCadastroProduto;
+import br.sgm.forms.CadastroCliente.TelaCadastroCliente;
+import br.sgm.forms.CadastroProduto.TelaCadastroProduto;
 import br.sgm.forms.relatorioCliente.TelaRelatorioCliente;
 import br.sgm.forms.relatorioProduto.TelaRelatorioProduto;
 import br.sgm.forms.usuario.TelaCadastroUsuario;

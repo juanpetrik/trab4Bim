@@ -6,12 +6,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,10 +20,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import br.sgm.dao.ClienteDAO;
+import br.sgm.forms.ConsultaCliente.TelaConsultaCliente;
 import br.sgm.model.Cliente;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 
 public class TelaVenda extends JPanel {
 	private JTable tableProdutos;
@@ -41,6 +39,7 @@ public class TelaVenda extends JPanel {
 	private JTextField textField;
 	private JTextField textField_4;
 	private JTextField txtIDCliente;
+	private TelaConsultaCliente telaConsultaCliente;
 
 	/**
 	 * Create the panel.
@@ -354,7 +353,11 @@ public class TelaVenda extends JPanel {
 
 	// Método que vai abrir a consulta de clientes..
 	protected void consultarCliente() {
-		
+		if (telaConsultaCliente == null) {
+			telaConsultaCliente = new TelaConsultaCliente();
+			
+			telaConsultaCliente.setVisible(true);
+		}
 	}
 
 	public void setAcaoFechar(ActionListener action) {

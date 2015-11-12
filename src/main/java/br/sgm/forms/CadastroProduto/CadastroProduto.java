@@ -1,4 +1,4 @@
-package br.sgm.forms.produto;
+package br.sgm.forms.CadastroProduto;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
