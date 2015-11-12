@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public abstract class MolduraAbstrata extends JPanel {
+public abstract class MolduraAbstrataConsulta extends JPanel {
 	/**
 	 * 
 	 */
@@ -18,8 +18,6 @@ public abstract class MolduraAbstrata extends JPanel {
 	
 	private JPanel panel;
 	private JButton btnFechar;
-	private JButton btnSalvar;
-	private JButton btnExcluir;
 
 	protected abstract void configurarCentro();
 
@@ -30,7 +28,7 @@ public abstract class MolduraAbstrata extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MolduraAbstrata() {
+	public MolduraAbstrataConsulta() {
 		setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
@@ -42,24 +40,6 @@ public abstract class MolduraAbstrata extends JPanel {
 				Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-
-		btnExcluir = new JButton("Excluir");
-		btnExcluir.setIcon(new ImageIcon(getClass().getResource("/icons/excluir.png")));
-		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
-		gbc_btnExcluir.insets = new Insets(0, 0, 0, 5);
-		gbc_btnExcluir.anchor = GridBagConstraints.EAST;
-		gbc_btnExcluir.gridx = 0;
-		gbc_btnExcluir.gridy = 0;
-		panel.add(btnExcluir, gbc_btnExcluir);
-
-		btnSalvar = new JButton("Salvar");
-		btnSalvar.setIcon(new ImageIcon(getClass().getResource("/icons/salvar.png")));
-		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-		gbc_btnSalvar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSalvar.anchor = GridBagConstraints.EAST;
-		gbc_btnSalvar.gridx = 1;
-		gbc_btnSalvar.gridy = 0;
-		panel.add(btnSalvar, gbc_btnSalvar);
 
 		btnFechar = new JButton("Fechar");
 		btnFechar.setIcon(new ImageIcon(getClass().getResource("/icons/fechar.png")));
@@ -74,14 +54,6 @@ public abstract class MolduraAbstrata extends JPanel {
 
 	}
 
-	public void setAcaoSalvar(Runnable acao) {
-		btnSalvar.addActionListener(e -> acao.run());
-	}
-
-	public void setAcaoExcluir(Runnable acao) {
-		btnExcluir.addActionListener(e -> acao.run());
-	}
-	
 	public void setAcaoFechar(ActionListener acao) {
 		btnFechar.addActionListener(acao);
 	}

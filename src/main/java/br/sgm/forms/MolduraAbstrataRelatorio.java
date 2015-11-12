@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -42,6 +43,7 @@ public abstract class MolduraAbstrataRelatorio extends JPanel {
 		panel.setLayout(gbl_panel);
 
 		btnGerar = new JButton("Gerar");
+		btnGerar.setIcon(new ImageIcon(getClass().getResource("/icons/gerar.png")));
 		GridBagConstraints gbc_btnGerar = new GridBagConstraints();
 		gbc_btnGerar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnGerar.anchor = GridBagConstraints.EAST;
@@ -50,6 +52,7 @@ public abstract class MolduraAbstrataRelatorio extends JPanel {
 		panel.add(btnGerar, gbc_btnGerar);
 
 		btnFechar = new JButton("Fechar");
+		btnFechar.setIcon(new ImageIcon(getClass().getResource("/icons/fechar.png")));
 		GridBagConstraints gbc_btnFechar = new GridBagConstraints();
 		gbc_btnFechar.fill = GridBagConstraints.VERTICAL;
 		gbc_btnFechar.anchor = GridBagConstraints.EAST;
