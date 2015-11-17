@@ -20,21 +20,24 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import br.sgm.dao.ClienteDAO;
+import br.sgm.dao.ProdutoDAO;
 import br.sgm.forms.ConsultaCliente.TelaConsultaCliente;
 import br.sgm.model.Cliente;
+import br.sgm.model.Produto;
 
 public class TelaVenda extends JPanel {
 	private JTable tableProdutos;
 	private JTextField txtNome;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtCodBarras;
+	private JTextField txtDescricao;
+	private JTextField txtQtde;
 	private JTextField txtTelefone;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtVlrUnit;
+	private JTextField txtSubTotal;
 	private JTextField txtR;
 	private JButton btnFechar;
 	private ClienteDAO daoCliente = new ClienteDAO();
+	private ProdutoDAO daoProduto = new ProdutoDAO();
 	private List<Object> listar;
 	private JTextField textField;
 	private JTextField textField_4;
@@ -129,15 +132,29 @@ public class TelaVenda extends JPanel {
 		gbc_lblProduto.gridy = 2;
 		add(lblProduto, gbc_lblProduto);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.anchor = GridBagConstraints.NORTH;
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txtCodBarras = new JTextField();
+		txtCodBarras.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+			
+				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+					getProduto();
+				}
+				
+				if (key.getKeyCode() == KeyEvent.VK_F2) {
+					consultarProduto();
+				}
+			
+			}
+		});
+		GridBagConstraints gbc_txtCodBarras = new GridBagConstraints();
+		gbc_txtCodBarras.anchor = GridBagConstraints.NORTH;
+		gbc_txtCodBarras.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCodBarras.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCodBarras.gridx = 1;
+		gbc_txtCodBarras.gridy = 2;
+		add(txtCodBarras, gbc_txtCodBarras);
+		txtCodBarras.setColumns(10);
 		
 		JLabel lblQtde = new JLabel("Qtde");
 		GridBagConstraints gbc_lblQtde = new GridBagConstraints();
@@ -147,15 +164,15 @@ public class TelaVenda extends JPanel {
 		gbc_lblQtde.gridy = 2;
 		add(lblQtde, gbc_lblQtde);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.anchor = GridBagConstraints.NORTH;
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.gridx = 3;
-		gbc_textField_3.gridy = 2;
-		add(textField_3, gbc_textField_3);
+		txtQtde = new JTextField();
+		txtQtde.setColumns(10);
+		GridBagConstraints gbc_txtQtde = new GridBagConstraints();
+		gbc_txtQtde.anchor = GridBagConstraints.NORTH;
+		gbc_txtQtde.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtQtde.insets = new Insets(0, 0, 5, 5);
+		gbc_txtQtde.gridx = 3;
+		gbc_txtQtde.gridy = 2;
+		add(txtQtde, gbc_txtQtde);
 		
 		JLabel lblVlrUnit = new JLabel("Vlr Unit");
 		GridBagConstraints gbc_lblVlrUnit = new GridBagConstraints();
@@ -165,14 +182,14 @@ public class TelaVenda extends JPanel {
 		gbc_lblVlrUnit.gridy = 2;
 		add(lblVlrUnit, gbc_lblVlrUnit);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.gridx = 5;
-		gbc_textField_5.gridy = 2;
-		add(textField_5, gbc_textField_5);
+		txtVlrUnit = new JTextField();
+		txtVlrUnit.setColumns(10);
+		GridBagConstraints gbc_txtVlrUnit = new GridBagConstraints();
+		gbc_txtVlrUnit.insets = new Insets(0, 0, 5, 5);
+		gbc_txtVlrUnit.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrUnit.gridx = 5;
+		gbc_txtVlrUnit.gridy = 2;
+		add(txtVlrUnit, gbc_txtVlrUnit);
 		
 		JLabel lblSubtotal = new JLabel("SubTotal");
 		GridBagConstraints gbc_lblSubtotal = new GridBagConstraints();
@@ -182,14 +199,14 @@ public class TelaVenda extends JPanel {
 		gbc_lblSubtotal.gridy = 2;
 		add(lblSubtotal, gbc_lblSubtotal);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_6.gridx = 7;
-		gbc_textField_6.gridy = 2;
-		add(textField_6, gbc_textField_6);
+		txtSubTotal = new JTextField();
+		txtSubTotal.setColumns(10);
+		GridBagConstraints gbc_txtSubTotal = new GridBagConstraints();
+		gbc_txtSubTotal.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSubTotal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSubTotal.gridx = 7;
+		gbc_txtSubTotal.gridy = 2;
+		add(txtSubTotal, gbc_txtSubTotal);
 		
 		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
@@ -199,16 +216,16 @@ public class TelaVenda extends JPanel {
 		gbc_lblDescrio.gridy = 3;
 		add(lblDescrio, gbc_lblDescrio);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 3;
-		gbc_textField_2.anchor = GridBagConstraints.NORTH;
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 3;
-		add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		txtDescricao = new JTextField();
+		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
+		gbc_txtDescricao.gridwidth = 5;
+		gbc_txtDescricao.anchor = GridBagConstraints.NORTH;
+		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDescricao.insets = new Insets(0, 0, 5, 5);
+		gbc_txtDescricao.gridx = 1;
+		gbc_txtDescricao.gridy = 3;
+		add(txtDescricao, gbc_txtDescricao);
+		txtDescricao.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -315,6 +332,38 @@ public class TelaVenda extends JPanel {
 		gbc_btnFechar.gridx = 7;
 		gbc_btnFechar.gridy = 7;
 		add(btnFechar, gbc_btnFechar);
+	}
+
+	protected void consultarProduto() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void getProduto() {
+		if (txtCodBarras.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe um Código de Barras para consultar");
+		} else {
+			String codBarras = txtCodBarras.getText();
+
+			Produto p = new Produto();
+			p.setCodBarras(codBarras);
+
+			Produto produto = daoProduto.consultarByCodBarras(p);
+
+			if (produto != null) {
+				moveDadosProdutoToForm(produto);
+			} else {
+				JOptionPane.showMessageDialog(null, "Nenhum produto foi encontrado");
+				limparDadosCliente();
+			}
+		}
+	}
+
+	private void moveDadosProdutoToForm(Produto produto) {
+		txtCodBarras.setText(produto.getCodBarras());
+		txtDescricao.setText(produto.getDescricao());
+		txtQtde.setText("1"); // Por default, seta 1
+		txtVlrUnit.setText(produto.getValorProduto().toString());
 	}
 
 	//Método que vai pegar um único cliente do banco..

@@ -123,6 +123,44 @@ public class ProdutoDAO extends DAO {
 
 		return null;
 	}
+	
+	public <T> T consultarByCodBarras(Object produto) {
+		Produto newProduto = (Produto) produto;
+
+		Statement st;
+		Produto p = new Produto();
+
+		try {
+			st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery("select * from produtos where codBarras = " + newProduto.getCodBarras());
+			if (rs.first()) {
+
+				p.setId(rs.getInt(1));
+				p.setCodBarras(rs.getString(2));
+
+				for (Categoria categoria : Categoria.values())
+					if (categoria.getNome().equals(rs.getString(3)))
+						p.setCategoria(categoria);
+
+				p.setDescricao(rs.getString(4));
+
+				for (Unidade unidade : Unidade.values())
+					if (unidade.getNome().equals(rs.getString(5)))
+						p.setUnidade(unidade);
+
+				p.setCusto(rs.getBigDecimal(6));
+				p.setMargemLucro(rs.getBigDecimal(7));
+				
+				return (T) p;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 	@Override
 	public void inseriralterar(Object produto) {

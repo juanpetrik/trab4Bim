@@ -1,4 +1,4 @@
-package br.sgm.forms.ConsultaCliente;
+package br.sgm.forms.ConsultaProduto;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -16,15 +16,16 @@ import javax.swing.border.EmptyBorder;
 
 import br.sgm.dao.ClienteDAO;
 import br.sgm.model.Cliente;
-import br.sgm.model.ModelCliente;
+import br.sgm.model.ModelProduto;
+import br.sgm.model.Produto;
 
-public class TelaConsultaCliente extends JFrame {
+public class TelaConsultaProduto extends JFrame {
 
 	private JPanel contentPane;
 	private ClienteDAO dao = new ClienteDAO();
-	private ModelCliente model = new ModelCliente();
+	private ModelProduto model = new ModelProduto();
 	private JTextField textField;
-	private JTable tableClientes;
+	private JTable tableProdutos;
 
 	/**
 	 * Launch the application.
@@ -33,7 +34,7 @@ public class TelaConsultaCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaConsultaCliente frame = new TelaConsultaCliente();
+					TelaConsultaProduto frame = new TelaConsultaProduto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +46,7 @@ public class TelaConsultaCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaConsultaCliente() {
+	public TelaConsultaProduto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 269);
 		setLocationRelativeTo(null);
@@ -59,7 +60,7 @@ public class TelaConsultaCliente extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JLabel lblNome = new JLabel("Nome");
+		JLabel lblNome = new JLabel("Descri\u00E7\u00E3o");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
 		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNome.anchor = GridBagConstraints.EAST;
@@ -89,8 +90,8 @@ public class TelaConsultaCliente extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
-		tableClientes = new JTable();
-		scrollPane.setViewportView(tableClientes);
+		tableProdutos = new JTable();
+		scrollPane.setViewportView(tableProdutos);
 
 		// $hide>>$
 	    atualizarTabela();
@@ -98,9 +99,9 @@ public class TelaConsultaCliente extends JFrame {
 	}
 
 	protected void atualizarTabela() {
-		model.list = dao.listar(new Cliente());
+		model.list = dao.listar(new Produto());
 
-		tableClientes.setModel(model);
+		tableProdutos.setModel(model);
 		model.fireTableDataChanged();
 	}
 }
