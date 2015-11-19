@@ -25,16 +25,17 @@ import br.sgm.conexao.ConexaoMysql;
 import br.sgm.dao.ProdutoDAO;
 import br.sgm.enums.Categoria;
 import br.sgm.enums.Unidade;
-import br.sgm.model.Cliente;
 import br.sgm.model.ModelProduto;
 import br.sgm.model.Produto;
 
+@SuppressWarnings("serial")
 public class CadastroProduto extends JPanel {
 	private JTextField txtID;
 	private JTextField txtCodBarras;
 	private JTextField txtDescricao;
 	private JTextField txtCusto;
 	private JTextField txtMargemLucro;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbUnidade;
 	private JPanel panel;
 	private JScrollPane scrollPane;
@@ -42,11 +43,13 @@ public class CadastroProduto extends JPanel {
 	private ProdutoDAO dao = new ProdutoDAO();
 	private ModelProduto model = new ModelProduto();
 	private JButton btnPesquisar;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbCategoria;
 
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CadastroProduto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 45, 123, 49, 65, 0 };

@@ -22,7 +22,7 @@ public class ConexaoMysql {
 		password = "root";
 		try {
 			Class.forName(driver).newInstance();
-			this.conn = DriverManager.getConnection(url + dbName, userName, password);
+			ConexaoMysql.conn = DriverManager.getConnection(url + dbName, userName, password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

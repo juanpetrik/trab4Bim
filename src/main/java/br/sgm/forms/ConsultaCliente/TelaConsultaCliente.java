@@ -18,6 +18,12 @@ import br.sgm.dao.ClienteDAO;
 import br.sgm.model.Cliente;
 import br.sgm.model.ModelCliente;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+@SuppressWarnings("serial")
 public class TelaConsultaCliente extends JFrame {
 
 	private JPanel contentPane;
@@ -25,6 +31,7 @@ public class TelaConsultaCliente extends JFrame {
 	private ModelCliente model = new ModelCliente();
 	private JTextField textField;
 	private JTable tableClientes;
+	public Cliente clienteRetorno;
 
 	/**
 	 * Launch the application.
@@ -33,8 +40,8 @@ public class TelaConsultaCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaConsultaCliente frame = new TelaConsultaCliente();
-					frame.setVisible(true);
+					//TelaConsultaCliente frame = new TelaConsultaCliente();
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,10 +51,11 @@ public class TelaConsultaCliente extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param runnable 
 	 */
-	public TelaConsultaCliente() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 449, 269);
+	public TelaConsultaCliente(Runnable runnable) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 750, 500);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,11 +98,36 @@ public class TelaConsultaCliente extends JFrame {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		tableClientes = new JTable();
+		tableClientes.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+			
+				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+					getCliente();
+					setVisible(false);
+					runnable.run();
+				}
+			
+			}
+		});
+		tableClientes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				// "Pega" o cliente...
+				getCliente();
+			
+			}
+		});
 		scrollPane.setViewportView(tableClientes);
 
 		// $hide>>$
 	    atualizarTabela();
 		// $hide<<$
+	}
+
+	protected void getCliente() {
+		clienteRetorno = model.list.get(tableClientes.getSelectedRow());		
 	}
 
 	protected void atualizarTabela() {

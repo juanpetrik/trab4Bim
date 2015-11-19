@@ -15,10 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import br.sgm.dao.ClienteDAO;
-import br.sgm.model.Cliente;
 import br.sgm.model.ModelProduto;
 import br.sgm.model.Produto;
 
+@SuppressWarnings("serial")
 public class TelaConsultaProduto extends JFrame {
 
 	private JPanel contentPane;
@@ -47,8 +47,8 @@ public class TelaConsultaProduto extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaConsultaProduto() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 449, 269);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 750, 500);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -72,11 +72,9 @@ public class Produto {
 
 	public BigDecimal getValorProduto(){
 		
-		//BigDecimal multiply = custo.multiply(margemLucro);
+		BigDecimal result = custo.add(custo.multiply(margemLucro.divide(new BigDecimal(100))));
 		
-	//	BigDecimal add = custo.add(multiply);
-		
-		return 0;
+		return result;
 	}
 	
 }

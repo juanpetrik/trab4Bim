@@ -15,9 +15,14 @@ import br.sgm.model.ModelProduto;
 import br.sgm.util.JasperUtil;
 
 public class RelatorioCliente extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtCidade;
 	private ProdutoDAO dao = new ProdutoDAO();
 	private ModelProduto model = new ModelProduto();
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbUF;
 
 	/**

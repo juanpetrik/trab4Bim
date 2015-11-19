@@ -26,6 +26,10 @@ import br.sgm.model.Cliente;
 import br.sgm.model.Produto;
 
 public class TelaVenda extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable tableProdutos;
 	private JTextField txtNome;
 	private JTextField txtCodBarras;
@@ -43,6 +47,8 @@ public class TelaVenda extends JPanel {
 	private JTextField textField_4;
 	private JTextField txtIDCliente;
 	private TelaConsultaCliente telaConsultaCliente;
+	
+	private Cliente clienteGlobal;
 
 	/**
 	 * Create the panel.
@@ -335,8 +341,7 @@ public class TelaVenda extends JPanel {
 	}
 
 	protected void consultarProduto() {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 	protected void getProduto() {
@@ -396,6 +401,7 @@ public class TelaVenda extends JPanel {
 
 	// Método que joga os dados de um cliente do objeto para tela..
 	private void moveDadosClienteToForm(Cliente cliente) {
+		txtIDCliente.setText(String.valueOf(cliente.getId()));
 		txtNome.setText(cliente.getNome());
 		txtTelefone.setText(cliente.getTelefone());
 	}
@@ -403,9 +409,16 @@ public class TelaVenda extends JPanel {
 	// Método que vai abrir a consulta de clientes..
 	protected void consultarCliente() {
 		if (telaConsultaCliente == null) {
-			telaConsultaCliente = new TelaConsultaCliente();
+			telaConsultaCliente = new TelaConsultaCliente(new Runnable() {
+				public void run() {
+					clienteGlobal = telaConsultaCliente.clienteRetorno;
+					moveDadosClienteToForm(clienteGlobal);
+					telaConsultaCliente = null;
+				}
+			});
 			
 			telaConsultaCliente.setVisible(true);
+	
 		}
 	}
 

@@ -4,7 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,24 +27,20 @@ import br.sgm.enums.UF;
 import br.sgm.model.Cliente;
 import br.sgm.model.ModelCliente;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class CadastroCliente extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtID;
 	private JTextField txtNome;
 	private JTextField txtEndereco;
 	private JTextField txtCidade;
 	private JTextField txtTelefone;
 	private JTextField txtEmail;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbUF;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbGenero;
 	private JPanel panel;
 	private JScrollPane scrollPane;
@@ -49,6 +52,7 @@ public class CadastroCliente extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CadastroCliente() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 45, 123, 49, 65, 0 };

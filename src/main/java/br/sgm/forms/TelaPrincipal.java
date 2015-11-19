@@ -26,6 +26,11 @@ import br.sgm.forms.venda.TelaVenda;
 
 public class TelaPrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTabbedPane tabbedPane;
 
