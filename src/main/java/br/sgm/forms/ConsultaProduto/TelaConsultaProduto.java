@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import br.sgm.dao.ClienteDAO;
+import br.sgm.dao.ProdutoDAO;
 import br.sgm.model.ModelProduto;
 import br.sgm.model.Produto;
 
@@ -22,10 +26,11 @@ import br.sgm.model.Produto;
 public class TelaConsultaProduto extends JFrame {
 
 	private JPanel contentPane;
-	private ClienteDAO dao = new ClienteDAO();
+	private ProdutoDAO dao = new ProdutoDAO();
 	private ModelProduto model = new ModelProduto();
 	private JTextField textField;
 	private JTable tableProdutos;
+	public Produto produtoRetorno;
 
 	/**
 	 * Launch the application.
@@ -34,8 +39,8 @@ public class TelaConsultaProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaConsultaProduto frame = new TelaConsultaProduto();
-					frame.setVisible(true);
+					//TelaConsultaProduto frame = new TelaConsultaProduto();
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,8 +50,9 @@ public class TelaConsultaProduto extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param runnable 
 	 */
-	public TelaConsultaProduto() {
+	public TelaConsultaProduto(Runnable runnable) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
 		setLocationRelativeTo(null);
@@ -91,11 +97,36 @@ public class TelaConsultaProduto extends JFrame {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		tableProdutos = new JTable();
+		tableProdutos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+				
+				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+					getProduto();
+					setVisible(false);
+					runnable.run();
+				}
+				
+			}
+		});
+		
+		tableProdutos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			
+				getProduto();
+				
+			}
+		});
 		scrollPane.setViewportView(tableProdutos);
 
 		// $hide>>$
 	    atualizarTabela();
 		// $hide<<$
+	}
+
+	protected void getProduto() {
+		produtoRetorno = model.list.get(tableProdutos.getSelectedRow());
 	}
 
 	protected void atualizarTabela() {
