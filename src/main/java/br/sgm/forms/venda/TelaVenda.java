@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -65,6 +67,7 @@ public class TelaVenda extends JPanel {
 		setLayout(gridBagLayout);
 
 		JLabel lblIDCliente = new JLabel("ID Cliente");
+		lblIDCliente.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblIDCliente = new GridBagConstraints();
 		gbc_lblIDCliente.anchor = GridBagConstraints.EAST;
 		gbc_lblIDCliente.insets = new Insets(0, 0, 5, 5);
@@ -96,6 +99,7 @@ public class TelaVenda extends JPanel {
 		add(txtIDCliente, gbc_txtIDCliente);
 
 		JLabel lblTelefone = new JLabel("Telefone");
+		lblTelefone.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblTelefone = new GridBagConstraints();
 		gbc_lblTelefone.anchor = GridBagConstraints.EAST;
 		gbc_lblTelefone.insets = new Insets(0, 0, 5, 5);
@@ -115,6 +119,7 @@ public class TelaVenda extends JPanel {
 		add(txtTelefone, gbc_txtTelefone);
 
 		JLabel lblNomeCliente = new JLabel("Nome Cliente");
+		lblNomeCliente.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNomeCliente = new GridBagConstraints();
 		gbc_lblNomeCliente.anchor = GridBagConstraints.WEST;
 		gbc_lblNomeCliente.insets = new Insets(0, 0, 5, 5);
@@ -135,6 +140,7 @@ public class TelaVenda extends JPanel {
 		txtNome.setColumns(10);
 
 		JLabel lblProduto = new JLabel("Cod Barras");
+		lblProduto.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblProduto = new GridBagConstraints();
 		gbc_lblProduto.anchor = GridBagConstraints.EAST;
 		gbc_lblProduto.insets = new Insets(0, 0, 5, 5);
@@ -149,6 +155,7 @@ public class TelaVenda extends JPanel {
 
 				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
 					getProduto();
+					txtQtde.requestFocus();
 				}
 
 				if (key.getKeyCode() == KeyEvent.VK_F2) {
@@ -167,6 +174,7 @@ public class TelaVenda extends JPanel {
 		txtCodBarras.setColumns(10);
 
 		JLabel lblQtde = new JLabel("Qtde");
+		lblQtde.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblQtde = new GridBagConstraints();
 		gbc_lblQtde.anchor = GridBagConstraints.EAST;
 		gbc_lblQtde.insets = new Insets(0, 0, 5, 5);
@@ -190,9 +198,9 @@ public class TelaVenda extends JPanel {
 					if (!txtQtde.getText().isEmpty()){
 						int qtde = Integer.parseInt(txtQtde.getText().trim());
 						
-						BigDecimal vlr = produtoGlobal.getValorProduto().multiply(new BigDecimal(qtde));
+						BigDecimal vlr = produtoGlobal.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).multiply(new BigDecimal(qtde));
 						
-						txtSubTotal.setText(vlr.toPlainString());
+						txtSubTotal.setText(vlr.setScale(2, RoundingMode.HALF_EVEN).toString());
 					}
 				}
 			}
@@ -206,7 +214,8 @@ public class TelaVenda extends JPanel {
 		gbc_txtQtde.gridy = 2;
 		add(txtQtde, gbc_txtQtde);
 
-		JLabel lblVlrUnit = new JLabel("Vlr Unit");
+		JLabel lblVlrUnit = new JLabel("Vlr Unit  R$");
+		lblVlrUnit.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblVlrUnit = new GridBagConstraints();
 		gbc_lblVlrUnit.anchor = GridBagConstraints.EAST;
 		gbc_lblVlrUnit.insets = new Insets(0, 0, 5, 5);
@@ -225,7 +234,8 @@ public class TelaVenda extends JPanel {
 		gbc_txtVlrUnit.gridy = 2;
 		add(txtVlrUnit, gbc_txtVlrUnit);
 
-		JLabel lblSubtotal = new JLabel("SubTotal");
+		JLabel lblSubtotal = new JLabel("SubTotal  R$");
+		lblSubtotal.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblSubtotal = new GridBagConstraints();
 		gbc_lblSubtotal.anchor = GridBagConstraints.EAST;
 		gbc_lblSubtotal.insets = new Insets(0, 0, 5, 5);
@@ -245,6 +255,7 @@ public class TelaVenda extends JPanel {
 		add(txtSubTotal, gbc_txtSubTotal);
 
 		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o");
+		lblDescrio.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
 		gbc_lblDescrio.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDescrio.anchor = GridBagConstraints.EAST;
@@ -282,7 +293,7 @@ public class TelaVenda extends JPanel {
 		scrollPane.setViewportView(tableProdutos);
 
 		JLabel lblValorTotal = new JLabel("Valor Total");
-		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblValorTotal.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
 		gbc_lblValorTotal.anchor = GridBagConstraints.EAST;
 		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
@@ -303,7 +314,7 @@ public class TelaVenda extends JPanel {
 		add(txtR, gbc_txtR);
 
 		JLabel lblTroco = new JLabel("Troco");
-		lblTroco.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTroco.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblTroco = new GridBagConstraints();
 		gbc_lblTroco.anchor = GridBagConstraints.EAST;
 		gbc_lblTroco.insets = new Insets(0, 0, 5, 5);
@@ -324,7 +335,7 @@ public class TelaVenda extends JPanel {
 		add(textField_4, gbc_textField_4);
 
 		JLabel lblValorPagamento = new JLabel("Valor Pagamento");
-		lblValorPagamento.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblValorPagamento.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblValorPagamento = new GridBagConstraints();
 		gbc_lblValorPagamento.anchor = GridBagConstraints.EAST;
 		gbc_lblValorPagamento.insets = new Insets(0, 0, 5, 5);
@@ -372,6 +383,10 @@ public class TelaVenda extends JPanel {
 		add(btnFechar, gbc_btnFechar);
 	}
 
+	protected String formatMyMoney(BigDecimal vlr) {
+		return NumberFormat.getCurrencyInstance().format(vlr);
+	}
+
 	protected void consultarProduto() {
 		if (telaConsultaProduto == null) {
 			telaConsultaProduto = new TelaConsultaProduto(new Runnable() {
@@ -379,6 +394,7 @@ public class TelaVenda extends JPanel {
 					produtoGlobal = telaConsultaProduto.produtoRetorno;
 					moveDadosProdutoToForm(produtoGlobal);
 					telaConsultaProduto = null;
+					txtQtde.requestFocus();
 				}
 			});
 
@@ -411,7 +427,7 @@ public class TelaVenda extends JPanel {
 		txtCodBarras.setText(produto.getCodBarras());
 		txtDescricao.setText(produto.getDescricao());
 		txtQtde.setText("1"); // Por default, seta 1
-		txtVlrUnit.setText(produto.getValorProduto().toString());
+		txtVlrUnit.setText(produto.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).toString());
 	}
 
 	// Método que vai pegar um único cliente do banco..

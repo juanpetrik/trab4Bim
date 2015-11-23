@@ -9,11 +9,11 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import br.sgm.conexao.ConexaoMysql;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import br.sgm.conexao.ConexaoMysql;
 
 public class JasperUtil {
 
