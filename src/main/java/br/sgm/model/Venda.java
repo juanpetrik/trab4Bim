@@ -11,7 +11,7 @@ public class Venda {
 	private Date data;
 	private BigDecimal vlrTotal;
 	private BigDecimal vlrTroco;
-	private List<Produto> produtos;
+	private List<ItemVenda> produtos;
 	
 	public int getId() {
 		return id;
@@ -61,11 +61,11 @@ public class Venda {
 		this.vlrTroco = vlrTroco;
 	}
 	
-	public List<Produto> getProdutos() {
+	public List<ItemVenda> getProdutos() {
 		return produtos;
 	}
 	
-	public void setProdutos(List<Produto> produtos) {
+	public void setProdutos(List<ItemVenda> produtos) {
 		this.produtos = produtos;
 	}
 }

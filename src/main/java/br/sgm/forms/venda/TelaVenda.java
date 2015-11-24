@@ -5,12 +5,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,7 +29,10 @@ import br.sgm.dao.ProdutoDAO;
 import br.sgm.forms.ConsultaCliente.TelaConsultaCliente;
 import br.sgm.forms.ConsultaProduto.TelaConsultaProduto;
 import br.sgm.model.Cliente;
+import br.sgm.model.ItemVenda;
+import br.sgm.model.ModelItemVenda;
 import br.sgm.model.Produto;
+import br.sgm.model.Venda;
 
 public class TelaVenda extends JPanel {
 	/**
@@ -50,9 +56,13 @@ public class TelaVenda extends JPanel {
 	private JTextField txtIDCliente;
 	private TelaConsultaCliente telaConsultaCliente;
 	private TelaConsultaProduto telaConsultaProduto;
+	private ModelItemVenda model = new ModelItemVenda();
 
 	private Cliente clienteGlobal;
 	private Produto produtoGlobal;
+	
+	private Venda vendaGlobal =  new Venda();
+	private Map<Integer, ItemVenda> listProdutosGlobal = new HashMap<Integer, ItemVenda>();
 
 	/**
 	 * Create the panel.
@@ -275,6 +285,20 @@ public class TelaVenda extends JPanel {
 		gbc_txtDescricao.gridy = 3;
 		add(txtDescricao, gbc_txtDescricao);
 		txtDescricao.setColumns(10);
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				addProduto();
+				
+			}
+		});
+		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
+		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAdd.gridx = 6;
+		gbc_btnAdd.gridy = 3;
+		add(btnAdd, gbc_btnAdd);
 
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -381,6 +405,33 @@ public class TelaVenda extends JPanel {
 		gbc_btnFechar.gridx = 7;
 		gbc_btnFechar.gridy = 7;
 		add(btnFechar, gbc_btnFechar);
+	}
+
+	// Método que vai adicionar o produto na venda..
+	protected void addProduto() {
+		ItemVenda item = new ItemVenda();
+		
+		item.setIdSeq(listProdutosGlobal.size() + 1);
+		item.setId(produtoGlobal.getId());
+		item.setCodBarras(produtoGlobal.getCodBarras());
+		item.setDescricao(produtoGlobal.getDescricao());
+		item.setCategoria(produtoGlobal.getCategoria());
+		item.setCusto(produtoGlobal.getCusto());
+		item.setMargemLucro(produtoGlobal.getMargemLucro());
+		item.setUnidade(produtoGlobal.getUnidade());
+		item.setVlrUnit(produtoGlobal.getValorProduto());
+		item.setQtde(Integer.parseInt(txtQtde.getText()));
+		item.setSubTotal(new BigDecimal(txtSubTotal.getText()));
+		
+		listProdutosGlobal.put(item.getIdSeq(), item);
+		atualizarTabela();
+	}
+	
+	protected void atualizarTabela(){
+		model.list = listProdutosGlobal;
+
+		tableProdutos.setModel(model);
+		model.fireTableDataChanged();
 	}
 
 	protected String formatMyMoney(BigDecimal vlr) {
