@@ -63,8 +63,8 @@ public class TelaVenda extends JPanel {
 
 	private Cliente clienteGlobal;
 	private Produto produtoGlobal;
-	
-	private Venda vendaGlobal =  new Venda();
+
+	private Venda vendaGlobal = new Venda();
 	private Map<Integer, ItemVenda> listProdutosGlobal = new HashMap<Integer, ItemVenda>();
 
 	/**
@@ -169,12 +169,12 @@ public class TelaVenda extends JPanel {
 				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
 					getProduto();
 					txtQtde.requestFocus();
+					calcularSubTotal();
 				}
 
 				if (key.getKeyCode() == KeyEvent.VK_F2) {
 					consultarProduto();
 				}
-
 			}
 		});
 		GridBagConstraints gbc_txtCodBarras = new GridBagConstraints();
@@ -198,26 +198,25 @@ public class TelaVenda extends JPanel {
 		txtQtde = new JTextField();
 		txtQtde.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent evt) {
-
-				if (txtQtde.getText().length() > 3){
-					evt.consume();				
-				}
-				
+			public void keyTyped(KeyEvent evt) {
 				String caracteres = "0987654321";
-				if (caracteres.contains(evt.getKeyChar() + "")) {
+				
+				if ((txtQtde.getText().length() >= 5) || (!caracteres.contains(evt.getKeyChar() + ""))) {
 					evt.consume();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (!txtQtde.getText().isEmpty()) {
+					calcularSubTotal();
 				} else {
-					if (!txtQtde.getText().isEmpty()){
-						int qtde = Integer.parseInt(txtQtde.getText().trim());
-						
-						BigDecimal vlr = produtoGlobal.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).multiply(new BigDecimal(qtde));
-						
-						txtSubTotal.setText(vlr.setScale(2, RoundingMode.HALF_EVEN).toString());
-					}
+					txtSubTotal.setText("");
+					;
 				}
 			}
 		});
+
 		txtQtde.setColumns(10);
 		GridBagConstraints gbc_txtQtde = new GridBagConstraints();
 		gbc_txtQtde.anchor = GridBagConstraints.NORTH;
@@ -288,13 +287,30 @@ public class TelaVenda extends JPanel {
 		gbc_txtDescricao.gridy = 3;
 		add(txtDescricao, gbc_txtDescricao);
 		txtDescricao.setColumns(10);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-				addProduto();
+
+				if (validarProduto()){
+					addProduto();	
+				}
+			}
+
+			private boolean validarProduto() {
+				if (txtCodBarras.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Falta informar o Código de Barras!");
+					txtCodBarras.requestFocus();
+					return false;
+				}
 				
+				if (txtQtde.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Falta informar a Quantidade!");
+					txtQtde.requestFocus();
+					return false;
+				}
+				
+				return true;
 			}
 		});
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
@@ -317,15 +333,21 @@ public class TelaVenda extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		tableProdutos = new JTable();
+		tableProdutos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+
+			}
+		});
 		tableProdutos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-			
+
 				// Se o individuo clicou duas vezes é para alterar o produto...
 				if (evt.getClickCount() == 2) {
 					// Vamos implementar futuramente..
 				}
-			
+
 			}
 		});
 		scrollPane.setViewportView(tableProdutos);
@@ -340,6 +362,7 @@ public class TelaVenda extends JPanel {
 		add(lblValorTotal, gbc_lblValorTotal);
 
 		txtVlrTotal = new JTextField();
+		txtVlrTotal.setEditable(false);
 		txtVlrTotal.setText("00.00");
 		txtVlrTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
 		txtVlrTotal.setColumns(10);
@@ -421,10 +444,19 @@ public class TelaVenda extends JPanel {
 		add(btnFechar, gbc_btnFechar);
 	}
 
+	protected void calcularSubTotal() {
+		int qtde = Integer.parseInt(txtQtde.getText().trim());
+
+		BigDecimal vlr = produtoGlobal.getValorProduto().setScale(2, RoundingMode.HALF_EVEN)
+				.multiply(new BigDecimal(qtde));
+
+		txtSubTotal.setText(vlr.setScale(2, RoundingMode.HALF_EVEN).toString());
+	}
+
 	// Método que vai adicionar o produto na venda..
 	protected void addProduto() {
 		ItemVenda item = new ItemVenda();
-		
+
 		item.setIdSeq(listProdutosGlobal.size() + 1);
 		item.setId(produtoGlobal.getId());
 		item.setCodBarras(produtoGlobal.getCodBarras());
@@ -436,21 +468,21 @@ public class TelaVenda extends JPanel {
 		item.setVlrUnit(produtoGlobal.getValorProduto());
 		item.setQtde(Integer.parseInt(txtQtde.getText()));
 		item.setSubTotal(new BigDecimal(txtSubTotal.getText()));
-		
-		if (vlrTotal == null){
+
+		if (vlrTotal == null) {
 			vlrTotal = new BigDecimal(0);
 		}
-		
+
 		vlrTotal = item.getSubTotal().add(vlrTotal);
-		
+
 		txtVlrTotal.setText(vlrTotal.toString());
-		
+
 		listProdutosGlobal.put(item.getIdSeq(), item);
 		atualizarTabela();
 		limparDadosProduto();
 	}
-	
-	protected void atualizarTabela(){
+
+	protected void atualizarTabela() {
 		model.list = listProdutosGlobal;
 
 		tableProdutos.setModel(model);
@@ -468,6 +500,7 @@ public class TelaVenda extends JPanel {
 					moveDadosProdutoToForm(telaConsultaProduto.produtoRetorno);
 					telaConsultaProduto = null;
 					txtQtde.requestFocus();
+					calcularSubTotal();
 				}
 			});
 
@@ -501,7 +534,7 @@ public class TelaVenda extends JPanel {
 		txtDescricao.setText(produto.getDescricao());
 		txtQtde.setText("1"); // Por default, seta 1
 		txtVlrUnit.setText(produto.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).toString());
-		
+
 		produtoGlobal = produto;
 	}
 
@@ -539,7 +572,7 @@ public class TelaVenda extends JPanel {
 		txtIDCliente.setText(String.valueOf(cliente.getId()));
 		txtNome.setText(cliente.getNome());
 		txtTelefone.setText(cliente.getTelefone());
-		
+
 		clienteGlobal = cliente;
 	}
 
@@ -557,11 +590,11 @@ public class TelaVenda extends JPanel {
 
 		}
 	}
-	
-	protected void limparDadosProduto(){
+
+	protected void limparDadosProduto() {
 		txtCodBarras.setText("");
 		txtDescricao.setText("");
-		txtQtde.setText(""); 
+		txtQtde.setText("");
 		txtVlrUnit.setText("");
 		produtoGlobal = null;
 	}
