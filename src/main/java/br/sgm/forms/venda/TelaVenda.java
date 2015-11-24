@@ -33,6 +33,8 @@ import br.sgm.model.ItemVenda;
 import br.sgm.model.ModelItemVenda;
 import br.sgm.model.Produto;
 import br.sgm.model.Venda;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaVenda extends JPanel {
 	/**
@@ -47,7 +49,7 @@ public class TelaVenda extends JPanel {
 	private JTextField txtTelefone;
 	private JTextField txtVlrUnit;
 	private JTextField txtSubTotal;
-	private JTextField txtR;
+	private JTextField txtVlrTotal;
 	private JButton btnFechar;
 	private ClienteDAO daoCliente = new ClienteDAO();
 	private ProdutoDAO daoProduto = new ProdutoDAO();
@@ -57,6 +59,7 @@ public class TelaVenda extends JPanel {
 	private TelaConsultaCliente telaConsultaCliente;
 	private TelaConsultaProduto telaConsultaProduto;
 	private ModelItemVenda model = new ModelItemVenda();
+	private BigDecimal vlrTotal = null;
 
 	private Cliente clienteGlobal;
 	private Produto produtoGlobal;
@@ -314,10 +317,21 @@ public class TelaVenda extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		tableProdutos = new JTable();
+		tableProdutos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+			
+				// Se o individuo clicou duas vezes é para alterar o produto...
+				if (evt.getClickCount() == 2) {
+					// Vamos implementar futuramente..
+				}
+			
+			}
+		});
 		scrollPane.setViewportView(tableProdutos);
 
-		JLabel lblValorTotal = new JLabel("Valor Total");
-		lblValorTotal.setFont(new Font("Dialog", Font.BOLD, 12));
+		JLabel lblValorTotal = new JLabel("Valor Total  R$");
+		lblValorTotal.setFont(new Font("Dialog", Font.BOLD, 20));
 		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
 		gbc_lblValorTotal.anchor = GridBagConstraints.EAST;
 		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
@@ -325,20 +339,20 @@ public class TelaVenda extends JPanel {
 		gbc_lblValorTotal.gridy = 5;
 		add(lblValorTotal, gbc_lblValorTotal);
 
-		txtR = new JTextField();
-		txtR.setText("R$ 00.00");
-		txtR.setFont(new Font("Tahoma", Font.BOLD, 18));
-		txtR.setColumns(10);
-		GridBagConstraints gbc_txtR = new GridBagConstraints();
-		gbc_txtR.gridwidth = 2;
-		gbc_txtR.insets = new Insets(0, 0, 5, 0);
-		gbc_txtR.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtR.gridx = 6;
-		gbc_txtR.gridy = 5;
-		add(txtR, gbc_txtR);
+		txtVlrTotal = new JTextField();
+		txtVlrTotal.setText("00.00");
+		txtVlrTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtVlrTotal.setColumns(10);
+		GridBagConstraints gbc_txtVlrTotal = new GridBagConstraints();
+		gbc_txtVlrTotal.gridwidth = 2;
+		gbc_txtVlrTotal.insets = new Insets(0, 0, 5, 0);
+		gbc_txtVlrTotal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrTotal.gridx = 6;
+		gbc_txtVlrTotal.gridy = 5;
+		add(txtVlrTotal, gbc_txtVlrTotal);
 
-		JLabel lblTroco = new JLabel("Troco");
-		lblTroco.setFont(new Font("Dialog", Font.BOLD, 12));
+		JLabel lblTroco = new JLabel("Troco  R$");
+		lblTroco.setFont(new Font("Dialog", Font.BOLD, 20));
 		GridBagConstraints gbc_lblTroco = new GridBagConstraints();
 		gbc_lblTroco.anchor = GridBagConstraints.EAST;
 		gbc_lblTroco.insets = new Insets(0, 0, 5, 5);
@@ -347,7 +361,7 @@ public class TelaVenda extends JPanel {
 		add(lblTroco, gbc_lblTroco);
 
 		textField_4 = new JTextField();
-		textField_4.setText("R$ 00.00");
+		textField_4.setText("00.00");
 		textField_4.setFont(new Font("Tahoma", Font.BOLD, 18));
 		textField_4.setColumns(10);
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
@@ -358,8 +372,8 @@ public class TelaVenda extends JPanel {
 		gbc_textField_4.gridy = 6;
 		add(textField_4, gbc_textField_4);
 
-		JLabel lblValorPagamento = new JLabel("Valor Pagamento");
-		lblValorPagamento.setFont(new Font("Dialog", Font.BOLD, 12));
+		JLabel lblValorPagamento = new JLabel("Valor Pagamento  R$");
+		lblValorPagamento.setFont(new Font("Dialog", Font.BOLD, 20));
 		GridBagConstraints gbc_lblValorPagamento = new GridBagConstraints();
 		gbc_lblValorPagamento.anchor = GridBagConstraints.EAST;
 		gbc_lblValorPagamento.insets = new Insets(0, 0, 5, 5);
@@ -368,7 +382,7 @@ public class TelaVenda extends JPanel {
 		add(lblValorPagamento, gbc_lblValorPagamento);
 
 		textField = new JTextField();
-		textField.setText("R$ 00.00");
+		textField.setText("00.00");
 		textField.setFont(new Font("Tahoma", Font.BOLD, 18));
 		textField.setColumns(10);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -423,8 +437,17 @@ public class TelaVenda extends JPanel {
 		item.setQtde(Integer.parseInt(txtQtde.getText()));
 		item.setSubTotal(new BigDecimal(txtSubTotal.getText()));
 		
+		if (vlrTotal == null){
+			vlrTotal = new BigDecimal(0);
+		}
+		
+		vlrTotal = item.getSubTotal().add(vlrTotal);
+		
+		txtVlrTotal.setText(vlrTotal.toString());
+		
 		listProdutosGlobal.put(item.getIdSeq(), item);
 		atualizarTabela();
+		limparDadosProduto();
 	}
 	
 	protected void atualizarTabela(){
@@ -442,8 +465,7 @@ public class TelaVenda extends JPanel {
 		if (telaConsultaProduto == null) {
 			telaConsultaProduto = new TelaConsultaProduto(new Runnable() {
 				public void run() {
-					produtoGlobal = telaConsultaProduto.produtoRetorno;
-					moveDadosProdutoToForm(produtoGlobal);
+					moveDadosProdutoToForm(telaConsultaProduto.produtoRetorno);
 					telaConsultaProduto = null;
 					txtQtde.requestFocus();
 				}
@@ -479,6 +501,8 @@ public class TelaVenda extends JPanel {
 		txtDescricao.setText(produto.getDescricao());
 		txtQtde.setText("1"); // Por default, seta 1
 		txtVlrUnit.setText(produto.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).toString());
+		
+		produtoGlobal = produto;
 	}
 
 	// Método que vai pegar um único cliente do banco..
@@ -507,6 +531,7 @@ public class TelaVenda extends JPanel {
 		txtIDCliente.setText("");
 		txtNome.setText("");
 		txtTelefone.setText("");
+		clienteGlobal = null;
 	}
 
 	// Método que joga os dados de um cliente do objeto para tela..
@@ -514,6 +539,8 @@ public class TelaVenda extends JPanel {
 		txtIDCliente.setText(String.valueOf(cliente.getId()));
 		txtNome.setText(cliente.getNome());
 		txtTelefone.setText(cliente.getTelefone());
+		
+		clienteGlobal = cliente;
 	}
 
 	// Método que vai abrir a consulta de clientes..
@@ -521,8 +548,7 @@ public class TelaVenda extends JPanel {
 		if (telaConsultaCliente == null) {
 			telaConsultaCliente = new TelaConsultaCliente(new Runnable() {
 				public void run() {
-					clienteGlobal = telaConsultaCliente.clienteRetorno;
-					moveDadosClienteToForm(clienteGlobal);
+					moveDadosClienteToForm(telaConsultaCliente.clienteRetorno);
 					telaConsultaCliente = null;
 				}
 			});
@@ -530,6 +556,14 @@ public class TelaVenda extends JPanel {
 			telaConsultaCliente.setVisible(true);
 
 		}
+	}
+	
+	protected void limparDadosProduto(){
+		txtCodBarras.setText("");
+		txtDescricao.setText("");
+		txtQtde.setText(""); 
+		txtVlrUnit.setText("");
+		produtoGlobal = null;
 	}
 
 	public void setAcaoFechar(ActionListener action) {
