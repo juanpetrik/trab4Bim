@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
@@ -33,8 +35,6 @@ import br.sgm.model.ItemVenda;
 import br.sgm.model.ModelItemVenda;
 import br.sgm.model.Produto;
 import br.sgm.model.Venda;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class TelaVenda extends JPanel {
 	/**
@@ -335,8 +335,47 @@ public class TelaVenda extends JPanel {
 		tableProdutos = new JTable();
 		tableProdutos.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent evt) {
+			public void keyPressed(KeyEvent key) {
 
+				if (key.getKeyCode() == KeyEvent.VK_DELETE){
+					int selecionado = tableProdutos.getSelectedRow() + 1;
+					
+					ItemVenda item = listProdutosGlobal.get(selecionado);
+					
+					vlrTotal = vlrTotal.subtract(item.getSubTotal());
+					
+					txtVlrTotal.setText(vlrTotal.toString());
+					
+					listProdutosGlobal.remove(selecionado);
+					
+					reprocessarItens();
+					
+					atualizarTabela();
+				}
+				
+			}
+
+			private void reprocessarItens() {
+				Map<Integer, ItemVenda> listTMP = new HashMap<Integer, ItemVenda>();
+				int seq = 1;
+				
+				for (int i = 1; i <= listProdutosGlobal.size() + 1; i++) {
+					if (listProdutosGlobal.get(i) != null){
+						listTMP.put(seq, listProdutosGlobal.get(i));	
+						seq++;
+					}
+				}
+				
+				listProdutosGlobal.clear();
+
+				seq = 1;
+				
+				for (int i = 1; i <= listTMP.size(); i++) {
+					if (listTMP.get(i) != null){
+						listProdutosGlobal.put(seq, listTMP.get(i));
+						seq++;
+					}
+				}
 			}
 		});
 		tableProdutos.addMouseListener(new MouseAdapter() {
