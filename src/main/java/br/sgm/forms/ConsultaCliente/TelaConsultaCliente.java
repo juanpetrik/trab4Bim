@@ -55,7 +55,7 @@ public class TelaConsultaCliente extends JFrame {
 	 */
 	public TelaConsultaCliente(Runnable runnable) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 750, 500);
+		setBounds(100, 100, 800, 550);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

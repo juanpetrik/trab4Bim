@@ -66,6 +66,7 @@ public class TelaVenda extends JPanel {
 
 	private Venda vendaGlobal = new Venda();
 	private Map<Integer, ItemVenda> listProdutosGlobal = new HashMap<Integer, ItemVenda>();
+	private JButton btnAdd;
 
 	/**
 	 * Create the panel.
@@ -99,7 +100,6 @@ public class TelaVenda extends JPanel {
 				if (key.getKeyCode() == KeyEvent.VK_F2) {
 					consultarCliente();
 				}
-
 			}
 		});
 
@@ -215,6 +215,12 @@ public class TelaVenda extends JPanel {
 					;
 				}
 			}
+			@Override
+			public void keyPressed(KeyEvent key) {
+				if (key.getKeyCode() == KeyEvent.VK_ENTER){
+					btnAdd.doClick();
+				}
+			}
 		});
 
 		txtQtde.setColumns(10);
@@ -288,7 +294,7 @@ public class TelaVenda extends JPanel {
 		add(txtDescricao, gbc_txtDescricao);
 		txtDescricao.setColumns(10);
 
-		JButton btnAdd = new JButton("Add");
+		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -298,15 +304,22 @@ public class TelaVenda extends JPanel {
 			}
 
 			private boolean validarProduto() {
-				if (txtCodBarras.getText().isEmpty()){
+				if (txtCodBarras.getText().trim().isEmpty()){
 					JOptionPane.showMessageDialog(null, "Falta informar o Código de Barras!");
 					txtCodBarras.requestFocus();
 					return false;
 				}
 				
-				if (txtQtde.getText().isEmpty()){
+				if (txtQtde.getText().trim().isEmpty()){
 					JOptionPane.showMessageDialog(null, "Falta informar a Quantidade!");
 					txtQtde.requestFocus();
+					return false;
+				}
+				
+				
+				if (Integer.parseInt(txtQtde.getText().trim()) < 1){
+					JOptionPane.showMessageDialog(null, "A quantidade não pode ser menor que 1!");
+					txtCodBarras.requestFocus();
 					return false;
 				}
 				
