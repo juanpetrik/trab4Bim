@@ -1,6 +1,7 @@
 package br.sgm.forms.venda;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -53,8 +54,8 @@ public class TelaVenda extends JPanel {
 	private JButton btnFechar;
 	private ClienteDAO daoCliente = new ClienteDAO();
 	private ProdutoDAO daoProduto = new ProdutoDAO();
-	private JTextField textField;
-	private JTextField textField_4;
+	private JTextField txtVlrPagamento;
+	private JTextField txtVlrTroco;
 	private JTextField txtIDCliente;
 	private TelaConsultaCliente telaConsultaCliente;
 	private TelaConsultaProduto telaConsultaProduto;
@@ -167,9 +168,10 @@ public class TelaVenda extends JPanel {
 			public void keyPressed(KeyEvent key) {
 
 				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
-					getProduto();
-					txtQtde.requestFocus();
-					calcularSubTotal();
+					if (getProduto()) {
+						txtQtde.requestFocus();
+						calcularSubTotal();
+					}
 				}
 
 				if (key.getKeyCode() == KeyEvent.VK_F2) {
@@ -200,7 +202,7 @@ public class TelaVenda extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent evt) {
 				String caracteres = "0987654321";
-				
+
 				if ((txtQtde.getText().length() >= 5) || (!caracteres.contains(evt.getKeyChar() + ""))) {
 					evt.consume();
 				}
@@ -212,12 +214,12 @@ public class TelaVenda extends JPanel {
 					calcularSubTotal();
 				} else {
 					txtSubTotal.setText("");
-					;
 				}
 			}
+
 			@Override
 			public void keyPressed(KeyEvent key) {
-				if (key.getKeyCode() == KeyEvent.VK_ENTER){
+				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnAdd.doClick();
 				}
 			}
@@ -298,31 +300,31 @@ public class TelaVenda extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (validarProduto()){
-					addProduto();	
+				if (validarProduto()) {
+					addProduto();
+					txtCodBarras.requestFocus();
 				}
 			}
 
 			private boolean validarProduto() {
-				if (txtCodBarras.getText().trim().isEmpty()){
+				if (txtCodBarras.getText().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Falta informar o Código de Barras!");
 					txtCodBarras.requestFocus();
 					return false;
 				}
-				
-				if (txtQtde.getText().trim().isEmpty()){
+
+				if (txtQtde.getText().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Falta informar a Quantidade!");
 					txtQtde.requestFocus();
 					return false;
 				}
-				
-				
-				if (Integer.parseInt(txtQtde.getText().trim()) < 1){
+
+				if (Integer.parseInt(txtQtde.getText().trim()) < 1) {
 					JOptionPane.showMessageDialog(null, "A quantidade não pode ser menor que 1!");
 					txtCodBarras.requestFocus();
 					return false;
 				}
-				
+
 				return true;
 			}
 		});
@@ -350,41 +352,41 @@ public class TelaVenda extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent key) {
 
-				if (key.getKeyCode() == KeyEvent.VK_DELETE){
+				if (key.getKeyCode() == KeyEvent.VK_DELETE) {
 					int selecionado = tableProdutos.getSelectedRow() + 1;
-					
+
 					ItemVenda item = listProdutosGlobal.get(selecionado);
-					
+
 					vlrTotal = vlrTotal.subtract(item.getSubTotal());
-					
+
 					txtVlrTotal.setText(vlrTotal.toString());
-					
+
 					listProdutosGlobal.remove(selecionado);
-					
+
 					reprocessarItens();
-					
+
 					atualizarTabela();
 				}
-				
+
 			}
 
 			private void reprocessarItens() {
 				Map<Integer, ItemVenda> listTMP = new HashMap<Integer, ItemVenda>();
 				int seq = 1;
-				
+
 				for (int i = 1; i <= listProdutosGlobal.size() + 1; i++) {
-					if (listProdutosGlobal.get(i) != null){
-						listTMP.put(seq, listProdutosGlobal.get(i));	
+					if (listProdutosGlobal.get(i) != null) {
+						listTMP.put(seq, listProdutosGlobal.get(i));
 						seq++;
 					}
 				}
-				
+
 				listProdutosGlobal.clear();
 
 				seq = 1;
-				
+
 				for (int i = 1; i <= listTMP.size(); i++) {
-					if (listTMP.get(i) != null){
+					if (listTMP.get(i) != null) {
 						listProdutosGlobal.put(seq, listTMP.get(i));
 						seq++;
 					}
@@ -435,17 +437,19 @@ public class TelaVenda extends JPanel {
 		gbc_lblTroco.gridy = 6;
 		add(lblTroco, gbc_lblTroco);
 
-		textField_4 = new JTextField();
-		textField_4.setText("00.00");
-		textField_4.setFont(new Font("Tahoma", Font.BOLD, 18));
-		textField_4.setColumns(10);
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.gridwidth = 2;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 6;
-		add(textField_4, gbc_textField_4);
+		txtVlrTroco = new JTextField();
+		txtVlrTroco.setForeground(Color.RED);
+		txtVlrTroco.setEditable(false);
+		txtVlrTroco.setText("00.00");
+		txtVlrTroco.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtVlrTroco.setColumns(10);
+		GridBagConstraints gbc_txtVlrTroco = new GridBagConstraints();
+		gbc_txtVlrTroco.gridwidth = 2;
+		gbc_txtVlrTroco.insets = new Insets(0, 0, 5, 5);
+		gbc_txtVlrTroco.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrTroco.gridx = 2;
+		gbc_txtVlrTroco.gridy = 6;
+		add(txtVlrTroco, gbc_txtVlrTroco);
 
 		JLabel lblValorPagamento = new JLabel("Valor Pagamento  R$");
 		lblValorPagamento.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -456,17 +460,29 @@ public class TelaVenda extends JPanel {
 		gbc_lblValorPagamento.gridy = 6;
 		add(lblValorPagamento, gbc_lblValorPagamento);
 
-		textField = new JTextField();
-		textField.setText("00.00");
-		textField.setFont(new Font("Tahoma", Font.BOLD, 18));
-		textField.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 2;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 6;
-		gbc_textField.gridy = 6;
-		add(textField, gbc_textField);
+		txtVlrPagamento = new JTextField();
+		txtVlrPagamento.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				// Calculando o valor de troco.. se o campo for diferente de vazio..
+				if (!txtVlrPagamento.getText().trim().isEmpty()) {
+					BigDecimal vlrTroco = new BigDecimal(txtVlrPagamento.getText()).subtract(vlrTotal);
+
+					txtVlrTroco.setText(vlrTroco.toString());
+				}
+			}
+		});
+		txtVlrPagamento.setText("00.00");
+		txtVlrPagamento.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtVlrPagamento.setColumns(10);
+		GridBagConstraints gbc_txtVlrPagamento = new GridBagConstraints();
+		gbc_txtVlrPagamento.gridwidth = 2;
+		gbc_txtVlrPagamento.insets = new Insets(0, 0, 5, 0);
+		gbc_txtVlrPagamento.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrPagamento.gridx = 6;
+		gbc_txtVlrPagamento.gridy = 6;
+		add(txtVlrPagamento, gbc_txtVlrPagamento);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/icons/cancelar.png")));
@@ -499,8 +515,7 @@ public class TelaVenda extends JPanel {
 	protected void calcularSubTotal() {
 		int qtde = Integer.parseInt(txtQtde.getText().trim());
 
-		BigDecimal vlr = produtoGlobal.getValorProduto().setScale(2, RoundingMode.HALF_EVEN)
-				.multiply(new BigDecimal(qtde));
+		BigDecimal vlr = produtoGlobal.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).multiply(new BigDecimal(qtde));
 
 		txtSubTotal.setText(vlr.setScale(2, RoundingMode.HALF_EVEN).toString());
 	}
@@ -561,9 +576,10 @@ public class TelaVenda extends JPanel {
 		}
 	}
 
-	protected void getProduto() {
+	protected boolean getProduto() {
 		if (txtCodBarras.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Informe um Código de Barras para consultar");
+			return false;
 		} else {
 			String codBarras = txtCodBarras.getText();
 
@@ -574,9 +590,11 @@ public class TelaVenda extends JPanel {
 
 			if (produto != null) {
 				moveDadosProdutoToForm(produto);
+				return true;
 			} else {
 				JOptionPane.showMessageDialog(null, "Nenhum produto foi encontrado");
 				limparDadosCliente();
+				return false;
 			}
 		}
 	}
