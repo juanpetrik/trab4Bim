@@ -1,4 +1,4 @@
-package br.sgm.forms.CadastroProduto;
+package br.sgm.forms.cadastroProduto;
 
 import java.awt.BorderLayout;
 

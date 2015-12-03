@@ -82,18 +82,17 @@ public class VendaDAO implements DAO<Venda> {
 					item.setDescricao(rs2.getString(5));
 
 					for (Categoria categoria : Categoria.values())
-						if (categoria.getNome().equals(rs.getString(6)))
+						if (categoria.getNome().equals(rs2.getString(6)))
 							item.setCategoria(categoria);
 
-					item.setCusto(rs2.getBigDecimal(7));
-					item.setMargemLucro(rs2.getBigDecimal(8));
-
 					for (Unidade unidade : Unidade.values())
-						if (unidade.getNome().equals(rs.getString(9)))
+						if (unidade.getNome().equals(rs2.getString(7)))
 							item.setUnidade(unidade);
-
-					item.setVlrUnit(rs2.getBigDecimal(10));
-					item.setQtde(rs2.getInt(11));
+					
+					item.setCusto(rs2.getBigDecimal(8));
+					item.setMargemLucro(rs2.getBigDecimal(9));
+					item.setQtde(rs2.getInt(10));
+					item.setVlrUnit(rs2.getBigDecimal(11));
 					item.setSubTotal(rs2.getBigDecimal(12));
 				}
 

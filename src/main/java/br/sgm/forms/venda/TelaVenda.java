@@ -28,13 +28,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.jfree.data.time.Hour;
-
 import br.sgm.dao.ClienteDAO;
 import br.sgm.dao.ProdutoDAO;
 import br.sgm.dao.VendaDAO;
-import br.sgm.forms.ConsultaCliente.TelaConsultaCliente;
-import br.sgm.forms.ConsultaProduto.TelaConsultaProduto;
+import br.sgm.forms.consultaCliente.TelaConsultaCliente;
+import br.sgm.forms.consultaProduto.TelaConsultaProduto;
 import br.sgm.model.Cliente;
 import br.sgm.model.ItemVenda;
 import br.sgm.model.ModelItemVenda;
@@ -524,6 +522,7 @@ public class TelaVenda extends JPanel {
 				vendaGlobal.setProdutos(listProdutosGlobal);
 				
 				daoVenda.inseriralterar(vendaGlobal);
+				listProdutosGlobal = new HashMap<Integer, ItemVenda>();
 				limparTela();
 				JOptionPane.showMessageDialog(null, "Venda Finalizada com Sucesso!");
 			}
@@ -618,7 +617,6 @@ public class TelaVenda extends JPanel {
 			});
 
 			telaConsultaProduto.setVisible(true);
-
 		}
 	}
 
@@ -713,6 +711,7 @@ public class TelaVenda extends JPanel {
 		txtDescricao.setText("");
 		txtQtde.setText("");
 		txtVlrUnit.setText("");
+		txtSubTotal.setText("");
 		produtoGlobal = null;
 	}
 

@@ -1,14 +1,10 @@
-package br.sgm.forms.ConsultaProduto;
+package br.sgm.forms.consultaCliente;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,19 +14,24 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import br.sgm.dao.ProdutoDAO;
-import br.sgm.model.ModelProduto;
-import br.sgm.model.Produto;
+import br.sgm.dao.ClienteDAO;
+import br.sgm.model.Cliente;
+import br.sgm.model.ModelCliente;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
-public class TelaConsultaProduto extends JFrame {
+public class TelaConsultaCliente extends JFrame {
 
 	private JPanel contentPane;
-	private ProdutoDAO dao = new ProdutoDAO();
-	private ModelProduto model = new ModelProduto();
+	private ClienteDAO dao = new ClienteDAO();
+	private ModelCliente model = new ModelCliente();
 	private JTextField textField;
-	private JTable tableProdutos;
-	public Produto produtoRetorno;
+	private JTable tableClientes;
+	public Cliente clienteRetorno;
 
 	/**
 	 * Launch the application.
@@ -39,7 +40,7 @@ public class TelaConsultaProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//TelaConsultaProduto frame = new TelaConsultaProduto();
+					//TelaConsultaCliente frame = new TelaConsultaCliente();
 					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +53,7 @@ public class TelaConsultaProduto extends JFrame {
 	 * Create the frame.
 	 * @param runnable 
 	 */
-	public TelaConsultaProduto(Runnable runnable) {
+	public TelaConsultaCliente(Runnable runnable) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 550);
 		setLocationRelativeTo(null);
@@ -66,7 +67,7 @@ public class TelaConsultaProduto extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JLabel lblNome = new JLabel("Descri\u00E7\u00E3o");
+		JLabel lblNome = new JLabel("Nome");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
 		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNome.anchor = GridBagConstraints.EAST;
@@ -96,43 +97,43 @@ public class TelaConsultaProduto extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
-		tableProdutos = new JTable();
-		tableProdutos.addKeyListener(new KeyAdapter() {
+		tableClientes = new JTable();
+		tableClientes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent key) {
-				
+			
 				if (key.getKeyCode() == KeyEvent.VK_ENTER) {
-					getProduto();
+					getCliente();
 					setVisible(false);
 					runnable.run();
 				}
-				
+			
 			}
 		});
-		
-		tableProdutos.addMouseListener(new MouseAdapter() {
+		tableClientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-			
-				getProduto();
 				
+				// "Pega" o cliente...
+				getCliente();
+			
 			}
 		});
-		scrollPane.setViewportView(tableProdutos);
+		scrollPane.setViewportView(tableClientes);
 
 		// $hide>>$
 	    atualizarTabela();
 		// $hide<<$
 	}
 
-	protected void getProduto() {
-		produtoRetorno = model.list.get(tableProdutos.getSelectedRow());
+	protected void getCliente() {
+		clienteRetorno = model.list.get(tableClientes.getSelectedRow());		
 	}
 
 	protected void atualizarTabela() {
-		model.list = dao.listar(new Produto());
+		model.list = dao.listar(new Cliente());
 
-		tableProdutos.setModel(model);
+		tableClientes.setModel(model);
 		model.fireTableDataChanged();
 	}
 }

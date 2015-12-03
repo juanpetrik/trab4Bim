@@ -1,4 +1,4 @@
-package br.sgm.forms.CadastroCliente;
+package br.sgm.forms.cadastroCliente;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;

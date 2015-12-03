@@ -17,8 +17,9 @@ import javax.swing.border.EmptyBorder;
 
 import br.sgm.conexao.ConexaoMysql;
 import br.sgm.conexao.StartBD;
-import br.sgm.forms.CadastroCliente.TelaCadastroCliente;
-import br.sgm.forms.CadastroProduto.TelaCadastroProduto;
+import br.sgm.forms.cadastroCliente.TelaCadastroCliente;
+import br.sgm.forms.cadastroProduto.TelaCadastroProduto;
+import br.sgm.forms.consultaVendas.ConsultaVenda;
 import br.sgm.forms.relatorioCliente.TelaRelatorioCliente;
 import br.sgm.forms.relatorioProduto.TelaRelatorioProduto;
 import br.sgm.forms.usuario.TelaCadastroUsuario;
@@ -143,6 +144,43 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmProdutos);
+		
+		JMenu mnConsultas = new JMenu("Consultas");
+		menuBar.add(mnConsultas);
+		
+		JMenuItem mntmVendas = new JMenuItem("Vendas");
+		mntmVendas.addActionListener(new ActionListener() {
+			private ConsultaVenda telaConsultaVenda;
+
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaVenda();
+			}
+
+			private void abrirTelaVenda() {
+				if (telaConsultaVenda == null) {
+					telaConsultaVenda = new ConsultaVenda();
+
+					JPanel newPainel = new JPanel(); 
+					{GridBagLayout gridBagLayout = new GridBagLayout();
+					gridBagLayout.columnWidths = new int[]{0, 0};
+					gridBagLayout.rowHeights = new int[]{0, 0};
+					gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+					gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+					newPainel.setLayout(gridBagLayout);
+					
+					
+					GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+					gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
+					gbc_btnNewButton.gridx = 0;
+					gbc_btnNewButton.gridy = 0;
+					newPainel.add(telaConsultaVenda, gbc_btnNewButton);}
+
+					tabbedPane.addTab("Consulta Venda", newPainel);
+					focus();
+				}
+			}
+		});
+		mnConsultas.add(mntmVendas);
 
 		JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
 		menuBar.add(mnRelatrios);
