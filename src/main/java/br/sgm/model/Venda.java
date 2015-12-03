@@ -2,6 +2,8 @@ package br.sgm.model;
 
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -10,15 +12,21 @@ public class Venda {
 	private int idCliente;
 	private String nomeCliente;
 	private Date data;
-	private Time hora;
+	private long hora;
 	private BigDecimal vlrTotal;
 	private Map<Integer, ItemVenda> produtos;
 
-	public Time getHora() {
-		return hora;
+	public String getHora() {
+		Timestamp timestamp = new Timestamp(hora);  
+		String hora = new SimpleDateFormat("hh:mm:ss").format(timestamp.getTime());  
+		return  hora;
+	}
+	
+	public Long getHoraL() {
+		return  hora;
 	}
 
-	public void setHora(Time time) {
+	public void setHora(long time) {
 		this.hora = time;
 	}
 

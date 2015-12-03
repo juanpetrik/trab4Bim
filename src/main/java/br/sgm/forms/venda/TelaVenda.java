@@ -520,9 +520,10 @@ public class TelaVenda extends JPanel {
 				vendaGlobal.setProdutos(model.list);
 				vendaGlobal.setVlrTotal(vlrTotal);
 				vendaGlobal.setData(new Date());
-				vendaGlobal.setHora(new Hour());
+				vendaGlobal.setHora(System.currentTimeMillis());
+				vendaGlobal.setProdutos(listProdutosGlobal);
 				
-				vendaGlobal.toString();
+				daoVenda.inseriralterar(vendaGlobal);
 			}
 		});
 		btnFinalizar.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
