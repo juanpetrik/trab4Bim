@@ -1,6 +1,5 @@
 package br.sgm.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +19,8 @@ import br.sgm.model.Venda;
 
 public class VendaDAO implements DAO<Venda> {
 
-	private static final String SQL_INSERIRALTERAR = "INSERT INTO vendas (id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento) VALUES (?, ?, ?, ?, ?, ?) on duplicate key update  nomeCliente = ?, vlrTotalVenda = ?, dtLancamento = ?, hrLancamento = ?";
+	private static final String SQL_INSERIRALTERAR_CAPA = "INSERT INTO vendas (id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento) VALUES (?, ?, ?, ?, ?, ?) on duplicate key update  nomeCliente = ?, vlrTotalVenda = ?, dtLancamento = ?, hrLancamento = ?";
+	private static final String SQL_INSERIRALTERAR_ITEM = "INSERT INTO itensvendas (id, idSeq, idVenda, codBarras, descricao, categoria, unidade, custo, margemLucro, qtde, vlrUnit, subTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE idSeq = ?, idVenda = ?, codBarras = ?, descricao = ?, categoria = ?, unidade = ?, custo = ?, margemLucro = ?, qtde = ?, vlrUnit = ?, subTotal = ?)    ";
 	private static final String SQL_DELETAR = "delete from clientes where id = ?";
 	private static final String SQL_LISTAR_CAPA = "select * from vendas";
 	private static final String SQL_CONSULTAR_CAPA = "select * from vendas where id = ";
@@ -175,36 +175,48 @@ public class VendaDAO implements DAO<Venda> {
 	@Override
 	public void inseriralterar(Venda obj) {
 		try {
-			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
+			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR_CAPA);
 			
-			//id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento
-			
+			//Inserindo a capa da venda....
 			ps.setInt(1, obj.getId());
 			ps.setInt(2, obj.getIdCliente());
 			ps.setString(3, obj.getNomeCliente());
 			ps.setBigDecimal(4, obj.getVlrTotal());
-			ps.setDate(parameterIndex, x);
-			
-			
-			
-			
-			ps.setInt(1, obj.getId());
-			ps.setString(2, obj.getNome());
-			ps.setString(3, obj.getTelefone());
-			ps.setString(4, obj.getEndereco());
-			ps.setString(5, obj.getCidade());
-			ps.setString(6, obj.getUf().getNome());
-			ps.setString(7, obj.getEmail());
-			ps.setString(8, obj.getGenero().getNome());
-			ps.setString(9, obj.getNome());
-			ps.setString(10, obj.getTelefone());
-			ps.setString(11, obj.getEndereco());
-			ps.setString(12, obj.getCidade());
-			ps.setString(13, obj.getUf().toString());
-			ps.setString(14, obj.getEmail());
-			ps.setString(15, obj.getGenero().getNome().toString());
-
+			ps.setDate(5, new java.sql.Date(obj.getData().getTime()));
+			ps.setTime(6, new java.sql.Time(obj.getHora().getTime()));
 			ps.executeUpdate();
+			
+			// Vamos inserir os itens da venda.
+			for (int i = 1; i < obj.getProdutos().size() + 1; i++) {
+				ItemVenda item = new ItemVenda();
+				item = obj.getProdutos().get(i);
+				
+				ps = conn.prepareStatement(SQL_INSERIRALTERAR_ITEM);
+				
+				ps.setInt(1, item.getId());
+				ps.setInt(2, item.getIdSeq());
+				ps.setInt(3, obj.getId());
+				ps.setString(4, item.getCodBarras());
+				ps.setString(5, item.getDescricao());
+				ps.setString(6, item.getCategoria().getNome());
+				ps.setString(7, item.getUnidade().getNome());
+				ps.setBigDecimal(8, item.getCusto());
+				ps.setBigDecimal(9, item.getMargemLucro());
+				ps.setInt(10, item.getQtde());
+				ps.setBigDecimal(11, item.getVlrUnit());
+				ps.setBigDecimal(12, item.getSubTotal());
+				ps.setInt(13, item.getIdSeq());
+				ps.setInt(14, obj.getId());
+				ps.setString(15, item.getCodBarras());
+				ps.setString(16, item.getDescricao());
+				ps.setString(17, item.getCategoria().getNome());
+				ps.setString(18, item.getUnidade().getNome());
+				ps.setBigDecimal(19, item.getCusto());
+				ps.setBigDecimal(20, item.getMargemLucro());
+				ps.setInt(21, item.getQtde());
+				ps.setBigDecimal(22, item.getVlrUnit());
+				ps.setBigDecimal(23, item.getSubTotal());
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,7 +225,6 @@ public class VendaDAO implements DAO<Venda> {
 
 	@Override
 	public void setConexao(Connection conn) {
-		// TODO Auto-generated method stub
-
+		this.conn = conn;
 	}
 }
