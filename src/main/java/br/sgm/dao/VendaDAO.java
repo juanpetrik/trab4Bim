@@ -20,7 +20,7 @@ import br.sgm.model.Venda;
 public class VendaDAO implements DAO<Venda> {
 
 	private static final String SQL_INSERIRALTERAR_CAPA = "INSERT INTO vendas (id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento) VALUES (?, ?, ?, ?, ?, ?) on duplicate key update idCliente = ?, nomeCliente = ?, vlrTotalVenda = ?, dtLancamento = ?, hrLancamento = ?";
-	private static final String SQL_INSERIRALTERAR_ITEM = "INSERT INTO itensvendas (id, idSeq, idVenda, codBarras, descricao, categoria, unidade, custo, margemLucro, qtde, vlrUnit, subTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE idSeq = ?, idVenda = ?, codBarras = ?, descricao = ?, categoria = ?, unidade = ?, custo = ?, margemLucro = ?, qtde = ?, vlrUnit = ?, subTotal = ?)    ";
+	private static final String SQL_INSERIRALTERAR_ITEM = "INSERT INTO itensvendas (id, idSeq, idVenda, codBarras, descricao, categoria, unidade, custo, margemLucro, qtde, vlrUnit, subTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE idSeq = ?, idVenda = ?, codBarras = ?, descricao = ?, categoria = ?, unidade = ?, custo = ?, margemLucro = ?, qtde = ?, vlrUnit = ?, subTotal = ?";
 	private static final String SQL_DELETAR = "delete from clientes where id = ?";
 	private static final String SQL_LISTAR_CAPA = "select * from vendas";
 	private static final String SQL_CONSULTAR_CAPA = "select * from vendas where id = ";
@@ -190,13 +190,13 @@ public class VendaDAO implements DAO<Venda> {
 			ps.executeUpdate();
 
 			// Vamos inserir os itens da venda.
-			for (int i = 1; i < obj.getProdutos().size(); i++) {
+			for (int i = 1; i <= obj.getProdutos().size(); i++) {
 				ItemVenda item = new ItemVenda();
 				item = obj.getProdutos().get(i);
 
 				ps = conn.prepareStatement(SQL_INSERIRALTERAR_ITEM);
 
-				ps.setInt(1, item.getId());
+				ps.setInt(1, getNextIDItem());
 				ps.setInt(2, item.getIdSeq());
 				ps.setInt(3, obj.getId());
 				ps.setString(4, item.getCodBarras());
@@ -225,6 +225,23 @@ public class VendaDAO implements DAO<Venda> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private int getNextIDItem() {
+		Statement st;
+
+		try {
+			st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery("Select * from itensvendas order by id desc");
+			if (rs.first()) {
+				return rs.getInt(1) + 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
 	}
 
 	@Override

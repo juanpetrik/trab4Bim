@@ -524,6 +524,8 @@ public class TelaVenda extends JPanel {
 				vendaGlobal.setProdutos(listProdutosGlobal);
 				
 				daoVenda.inseriralterar(vendaGlobal);
+				limparTela();
+				JOptionPane.showMessageDialog(null, "Venda Finalizada com Sucesso!");
 			}
 		});
 		btnFinalizar.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
