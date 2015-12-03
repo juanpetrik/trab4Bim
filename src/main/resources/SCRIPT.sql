@@ -76,8 +76,8 @@ CREATE TABLE `vendas` (
 /* Tabela de itens da vendas */
 DROP TABLE IF EXISTS itensvendas;
 CREATE TABLE `itensvendas` (
-  `idSeq` INT(10) NOT NULL AUTO_INCREMENT,
   `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `idSeq` INT(10) NOT NULL,
   `idVenda` INT(10) NOT NULL ,
   `codBarras` VARCHAR(50) DEFAULT NULL,
   `descricao` VARCHAR(100) DEFAULT NULL,

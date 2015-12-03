@@ -1,95 +1,219 @@
-DROP DATABASE IF EXISTS trab4BimOO;
-CREATE DATABASE trab4BimOO;
+package br.sgm.dao;
 
-/* Tabela de clientes */
-DROP TABLE IF EXISTS clientes;
-CREATE TABLE `clientes` (
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(100) DEFAULT NULL,
-  `telefone` VARCHAR(20) DEFAULT NULL,
-  `endereco` VARCHAR(100) DEFAULT NULL,
-  `cidade` VARCHAR(100) DEFAULT NULL,
-  `estado` CHAR(2) DEFAULT NULL,
-  `email` VARCHAR(150) DEFAULT NULL,
-  `genero` CHAR(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('1','JOAO FERNANDO','4599256859','ENDEREÇO DE TESTE','CASCAVEL','PR','EMAILDETESTE@GMAIL.COM','M');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('2','CAROLINE DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('3','DANIEL DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('4','PEDRO DA LUZ','4589849685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('5','MARCELLI RIBEIRO','4588823485','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('6','DANIELA DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('7','ANTONIA DA SILVA','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('8','PEDRINHA DA SILVA','4583459685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('9','JENIFER MARCELLE','4588859685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
-insert into `clientes` (`id`, `nome`, `telefone`, `endereco`, `cidade`, `estado`, `email`, `genero`) values('10','JOAO DA SILVA','4588456685','RUA DE TESTE','CASCAVEL','PR','EMAILDETESTE@HOTMAIL.COM','F');
+import com.mysql.jdbc.Statement;
 
+import br.sgm.conexao.ConexaoMysql;
+import br.sgm.enums.Categoria;
+import br.sgm.enums.Unidade;
+import br.sgm.model.ItemVenda;
+import br.sgm.model.Venda;
 
-/* Tabela de usuarios */
-DROP TABLE IF EXISTS usuarios;
-CREATE TABLE `usuarios` (
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `idCliente` INT(10) DEFAULT NULL,
-  `senha` VARCHAR(16) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+public class VendaDAO implements DAO<Venda> {
 
-/* Tabela de produtos */
-DROP TABLE IF EXISTS produtos;
-CREATE TABLE `produtos` (
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `codBarras` VARCHAR(15) DEFAULT NULL,
-  `categoria` VARCHAR(50) DEFAULT NULL,
-  `descricao` VARCHAR(100) DEFAULT NULL,
-  `unidade` CHAR(3) NOT NULL,
-  `custo` DECIMAL(10,2) NOT NULL,
-  `margemLucro` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+	private static final String SQL_INSERIRALTERAR = "INSERT INTO vendas (id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento) VALUES (?, ?, ?, ?, ?, ?) on duplicate key update  nomeCliente = ?, vlrTotalVenda = ?, dtLancamento = ?, hrLancamento = ?";
+	private static final String SQL_DELETAR = "delete from clientes where id = ?";
+	private static final String SQL_LISTAR_CAPA = "select * from vendas";
+	private static final String SQL_CONSULTAR_CAPA = "select * from vendas where id = ";
+	private static final String SQL_CONSULTAR_ITEM = "select * from itensvendas where idVenda = ";
+	
 
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('1','7896026300889','Limpeza','SABÃO EM PÓ','CX','5.99','5');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('2','7895651561516','Frutas','MAÇA','UN','2.99','1');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('3','7893453453453','Frutas','UVA','KG','3.99','7');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('4','7895651654165','Frutas','PÊRA','KG','4.99','8');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('5','7896516165161','Frutas','BANANA','KG','1.49','9');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('6','7895615161516','Limpeza','AMACIANTE','UN','6.99','7');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('7','7896156161561','Limpeza','DETERGENTE','UN','1.29','3');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('8','7895165161651','Limpeza','VASSOURA','UN','10.45','10');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('9','7896219841519','Limpeza','MULTIUSO VEJA','UN','3.99','7');
-insert into `produtos` (`id`, `codBarras`, `categoria`, `descricao`, `unidade`, `custo`, `margemLucro`) values('10','7898219822981','Limpeza','PALHA DE AÇO','UN','1.99','2');
+	private Connection conn = ConexaoMysql.getConexaoBD();
+	
+	@Override
+	public void inserir(Venda obj) {
+		// Usar o inserirAlterar
+	}
 
+	@Override
+	public void deletar(Venda venda) {
+		try {
+			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
+			ps.setInt(1, venda.getId());
+			ps.executeUpdate();
 
-/* Tabela de vendas (capa) */
-DROP TABLE IF EXISTS vendas;
-CREATE TABLE `vendas` (
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `idCliente` INT(10) DEFAULT NULL,
-  `nomeCliente` VARCHAR(100) DEFAULT NULL,
-  `vlrTotalVenda` DECIMAL(10,2) NOT NULL,
-  `dtLancamento` DATE,
-  `hrLancamento` DATETIME,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-/* Tabela de itens da vendas */
-DROP TABLE IF EXISTS itensvendas;
-CREATE TABLE `itensvendas` (
-  `idSeq` INT(10) NOT NULL AUTO_INCREMENT,
-  `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `idVenda` INT(10) NOT NULL ,
-  `codBarras` VARCHAR(50) DEFAULT NULL,
-  `descricao` VARCHAR(100) DEFAULT NULL,
-  `categoria` VARCHAR(50) DEFAULT NULL,
-  `unidade` VARCHAR(50) DEFAULT NULL,
-  `custo` DECIMAL(10,2) NOT NULL,
-  `margemLucro` DECIMAL(10,2) NOT NULL,
-  `qtde` INT(10) NOT NULL ,
-  `vlrUnit` DECIMAL(10,2) NOT NULL,
-  `subTotal` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id`), 
-  FOREIGN KEY (idVenda) REFERENCES vendas(id)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+	@Override
+	public void alterar(Venda obj) {
+		// Usar o inserirAlterar
+	}
 
+	@Override
+	public <T> List<T> listar(T obj) {
+		List<T> list = new ArrayList<T>();
 
+		Statement st;
+		try {
+			st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery(SQL_LISTAR_CAPA);
+			while (rs.next()) {
+				Venda v = new Venda();
+				v.setId(rs.getInt(1));
+				v.setIdCliente(rs.getInt(2));
+				v.setNomeCliente(rs.getString(3));
+				v.setVlrTotal(rs.getBigDecimal(4));
+				v.setData(rs.getDate(5));
+				v.setHora(rs.getTime(6));
+				
+				st = (Statement) conn.createStatement();
+
+				Map<Integer, ItemVenda> listItens = new HashMap<Integer, ItemVenda>();
+				
+				ResultSet rs2 = st.executeQuery(SQL_CONSULTAR_ITEM + v.getId());
+				while (rs2.next()) {
+					ItemVenda item = new ItemVenda();
+					
+					item.setId(rs2.getInt(1));
+					item.setIdSeq(rs2.getInt(2));
+					item.setCodBarras(rs2.getString(4));
+					item.setDescricao(rs2.getString(5));
+					
+					for (Categoria categoria : Categoria.values())
+						if (categoria.getNome().equals(rs.getString(6)))
+							item.setCategoria(categoria);
+					
+					item.setCusto(rs2.getBigDecimal(7));
+					item.setMargemLucro(rs2.getBigDecimal(8));
+					
+					for (Unidade unidade : Unidade.values())
+						if (unidade.getNome().equals(rs.getString(9)))
+							item.setUnidade(unidade);
+					
+					item.setVlrUnit(rs2.getBigDecimal(10));
+					item.setQtde(rs2.getInt(11));
+					item.setSubTotal(rs2.getBigDecimal(12));
+				}
+				
+				v.setProdutos(listItens);
+			
+				list.add((T) v);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public <T> T consultar(T obj) {
+		Venda newVenda = (Venda) obj;
+		
+		Statement st;
+		Venda v = new Venda();
+		
+		try {
+			st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery(SQL_CONSULTAR_CAPA + newVenda.getId());
+			if (rs.first()) {
+				
+				v.setId(rs.getInt(1));
+				v.setIdCliente(rs.getInt(2));
+				v.setNomeCliente(rs.getString(3));
+				v.setVlrTotal(rs.getBigDecimal(4));
+				v.setData(rs.getDate(5));
+				v.setHora(rs.getTime(6));
+				
+				st = (Statement) conn.createStatement();
+
+				Map<Integer, ItemVenda> listItens = new HashMap<Integer, ItemVenda>();
+				
+				ResultSet rs2 = st.executeQuery(SQL_CONSULTAR_ITEM + v.getId());
+				while (rs2.next()) {
+					ItemVenda item = new ItemVenda();
+					
+					item.setId(rs2.getInt(1));
+					item.setIdSeq(rs2.getInt(2));
+					item.setCodBarras(rs2.getString(4));
+					item.setDescricao(rs2.getString(5));
+					
+					for (Categoria categoria : Categoria.values())
+						if (categoria.getNome().equals(rs.getString(6)))
+							item.setCategoria(categoria);
+					
+					item.setCusto(rs2.getBigDecimal(7));
+					item.setMargemLucro(rs2.getBigDecimal(8));
+					
+					for (Unidade unidade : Unidade.values())
+						if (unidade.getNome().equals(rs.getString(9)))
+							item.setUnidade(unidade);
+					
+					item.setVlrUnit(rs2.getBigDecimal(10));
+					item.setQtde(rs2.getInt(11));
+					item.setSubTotal(rs2.getBigDecimal(12));
+				}
+				
+				v.setProdutos(listItens);
+			
+				
+				return (T) v;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void inseriralterar(Venda obj) {
+		try {
+			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
+			
+			//id, idCliente, nomeCliente, vlrTotalVenda, dtLancamento, hrLancamento
+			
+			ps.setInt(1, obj.getId());
+			ps.setInt(2, obj.getIdCliente());
+			ps.setString(3, obj.getNomeCliente());
+			ps.setBigDecimal(4, obj.getVlrTotal());
+			ps.setDate(parameterIndex, x);
+			
+			
+			
+			
+			ps.setInt(1, obj.getId());
+			ps.setString(2, obj.getNome());
+			ps.setString(3, obj.getTelefone());
+			ps.setString(4, obj.getEndereco());
+			ps.setString(5, obj.getCidade());
+			ps.setString(6, obj.getUf().getNome());
+			ps.setString(7, obj.getEmail());
+			ps.setString(8, obj.getGenero().getNome());
+			ps.setString(9, obj.getNome());
+			ps.setString(10, obj.getTelefone());
+			ps.setString(11, obj.getEndereco());
+			ps.setString(12, obj.getCidade());
+			ps.setString(13, obj.getUf().toString());
+			ps.setString(14, obj.getEmail());
+			ps.setString(15, obj.getGenero().getNome().toString());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void setConexao(Connection conn) {
+		// TODO Auto-generated method stub
+
+	}
+}

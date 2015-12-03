@@ -1,26 +1,25 @@
 package br.sgm.model;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.Date;
 import java.util.Map;
-
-import org.jfree.data.time.Hour;
 
 public class Venda {
 	private int id;
 	private int idCliente;
 	private String nomeCliente;
 	private Date data;
-	private Hour hora;
+	private Time hora;
 	private BigDecimal vlrTotal;
 	private Map<Integer, ItemVenda> produtos;
 
-	public Hour getHora() {
+	public Time getHora() {
 		return hora;
 	}
 
-	public void setHora(Hour hora) {
-		this.hora = hora;
+	public void setHora(Time time) {
+		this.hora = time;
 	}
 
 	public int getId() {
