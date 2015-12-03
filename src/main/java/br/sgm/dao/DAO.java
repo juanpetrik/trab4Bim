@@ -3,13 +3,13 @@ package br.sgm.dao;
 import java.sql.Connection;
 import java.util.List;
 
-// Classe abstrata, que será implementada pelos DAO's de cliente, produto e usuario...
-public abstract class DAO {
-	public abstract void inserir(Object obj);
-	public abstract void deletar(Object obj);
-	public abstract void alterar(Object obj);
-	public abstract <T> List<T> listar(Object obj);
-	public abstract <T> T consultar(Object obj);
-	public abstract void inseriralterar(Object obj);
+// Interface, que será implementada pelos DAO's de cliente, produto e usuario...
+public interface DAO <T>{
+	public abstract void inserir(T obj);
+	public abstract void deletar(T obj);
+	public abstract void alterar(T obj);
+	public abstract <T> List<T> listar(T obj);
+	public abstract <T> T consultar(T obj);
+	public abstract void inseriralterar(T obj);
 	public abstract void setConexao(Connection conn);
 }

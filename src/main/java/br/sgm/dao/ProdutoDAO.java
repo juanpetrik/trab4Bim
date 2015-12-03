@@ -14,7 +14,7 @@ import br.sgm.model.Produto;
 
 import com.mysql.jdbc.Statement;
 
-public class ProdutoDAO extends DAO {
+public class ProdutoDAO implements DAO <Produto> {
 
 	private static final String SQL_INSERIRALTERAR = "insert into produtos (id, codBarras, categoria, descricao, unidade, custo, margemLucro) values (?, ?, ?, ?, ?, ?, ?) on duplicate key update codBarras = ?, categoria = ?, descricao = ?, unidade = ?, custo = ?, margemLucro = ?";
 	private static final String SQL_DELETAR = "delete from produtos where id = ?";
@@ -24,17 +24,15 @@ public class ProdutoDAO extends DAO {
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
 	@Override
-	public void inserir(Object produto) {
+	public void inserir(Produto obj) {
 		// Usar o inserirAlterar
 	}
 
 	@Override
-	public void deletar(Object produto) {
-		Produto p = (Produto) produto;
-
+	public void deletar(Produto obj) {
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
-			ps.setInt(1, p.getId());
+			ps.setInt(1, obj.getId());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -43,12 +41,12 @@ public class ProdutoDAO extends DAO {
 	}
 
 	@Override
-	public void alterar(Object produto) {
-
+	public void alterar(Produto obj) {
+		// Usar o inserirAlterar
 	}
 
 	@Override
-	public <T> List<T> listar(Object produto) {
+	public <T> List<T> listar(T obj) {
 		List<T> list = new ArrayList<T>();
 
 		Statement st;
@@ -86,8 +84,8 @@ public class ProdutoDAO extends DAO {
 	}
 
 	@Override
-	public <T> T consultar(Object produto) {
-		Produto newProduto = (Produto) produto;
+	public <T> T consultar(T obj) {
+		Produto newProduto = (Produto) obj;
 
 		Statement st;
 		Produto p = new Produto();
@@ -123,7 +121,7 @@ public class ProdutoDAO extends DAO {
 
 		return null;
 	}
-	
+
 	public <T> T consultarByCodBarras(Object produto) {
 		Produto newProduto = (Produto) produto;
 
@@ -161,26 +159,24 @@ public class ProdutoDAO extends DAO {
 
 		return null;
 	}
-
+	
 	@Override
-	public void inseriralterar(Object produto) {
-		Produto p = (Produto) produto;
-
+	public void inseriralterar(Produto obj) {
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
-			ps.setInt(1, p.getId());
-			ps.setString(2, p.getCodBarras());
-			ps.setString(3, p.getCategoria().getNome());
-			ps.setString(4, p.getDescricao());
-			ps.setString(5, p.getUnidade().getNome());
-			ps.setBigDecimal(6, p.getCusto());
-			ps.setBigDecimal(7, p.getMargemLucro());
-			ps.setString(8, p.getCodBarras());
-			ps.setString(9, p.getCategoria().getNome());
-			ps.setString(10, p.getDescricao());
-			ps.setString(11, p.getUnidade().getNome());
-			ps.setBigDecimal(12, p.getCusto());
-			ps.setBigDecimal(13, p.getMargemLucro());
+			ps.setInt(1, obj.getId());
+			ps.setString(2, obj.getCodBarras());
+			ps.setString(3, obj.getCategoria().getNome());
+			ps.setString(4, obj.getDescricao());
+			ps.setString(5, obj.getUnidade().getNome());
+			ps.setBigDecimal(6, obj.getCusto());
+			ps.setBigDecimal(7, obj.getMargemLucro());
+			ps.setString(8, obj.getCodBarras());
+			ps.setString(9, obj.getCategoria().getNome());
+			ps.setString(10, obj.getDescricao());
+			ps.setString(11, obj.getUnidade().getNome());
+			ps.setBigDecimal(12, obj.getCusto());
+			ps.setBigDecimal(13, obj.getMargemLucro());
 			
 			ps.executeUpdate();
 

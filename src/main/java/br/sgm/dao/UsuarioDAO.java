@@ -4,20 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.sgm.conexao.ConexaoMysql;
-import br.sgm.enums.Categoria;
-import br.sgm.enums.Genero;
-import br.sgm.enums.UF;
-import br.sgm.enums.Unidade;
-import br.sgm.model.Cliente;
 import br.sgm.model.Usuario;
 
-import com.mysql.jdbc.Statement;
-
-public class UsuarioDAO extends DAO {
+public class UsuarioDAO implements DAO <Usuario>{
 
 	private static final String SQL_INSERIRALTERAR = "INSERT INTO usuarios (id, idCliente, senha) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE idCliente = ?, senha = ?  ";
 	private static final String SQL_DELETAR = "delete from usuarios where id = ?";
@@ -27,17 +21,15 @@ public class UsuarioDAO extends DAO {
 	private Connection conn = ConexaoMysql.getConexaoBD();
 
 	@Override
-	public void inserir(Object usuario) {
+	public void inserir(Usuario obj) {
 		// Usar o inserirAlterar
 	}
 
 	@Override
-	public void deletar(Object usuario) {
-		Usuario p = (Usuario) usuario;
-
+	public void deletar(Usuario obj) {
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_DELETAR);
-			ps.setInt(1, p.getId());
+			ps.setInt(1, obj.getId());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -46,12 +38,12 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public void alterar(Object usuario) {
-
+	public void alterar(Usuario obj) {
+		// Usar o inserirAlterar
 	}
 
 	@Override
-	public <T> List<T> listar(Object usuario) {
+	public <T> List<T> listar(T obj) {
 		List<T> list = new ArrayList<T>();
 
 		Statement st;
@@ -77,8 +69,8 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public <T> T consultar(Object usuario) {
-		Usuario newUsuario = (Usuario) usuario;
+	public <T> T consultar(T obj) {
+		Usuario newUsuario = (Usuario) obj;
 
 		Statement st;
 		Usuario u = new Usuario();
@@ -104,16 +96,14 @@ public class UsuarioDAO extends DAO {
 	}
 
 	@Override
-	public void inseriralterar(Object usuario) {
-		Usuario u = (Usuario) usuario;
-
+	public void inseriralterar(Usuario obj) {
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQL_INSERIRALTERAR);
-			ps.setInt(1, u.getId());
-			ps.setInt(2, u.getIdCliente());
-			ps.setString(3, u.getSenha());
-			ps.setInt(4, u.getIdCliente());
-			ps.setString(5, u.getSenha());
+			ps.setInt(1, obj.getId());
+			ps.setInt(2, obj.getIdCliente());
+			ps.setString(3, obj.getSenha());
+			ps.setInt(4, obj.getIdCliente());
+			ps.setString(5, obj.getSenha());
 			
 			ps.executeUpdate();
 

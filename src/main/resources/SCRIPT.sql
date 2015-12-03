@@ -76,11 +76,18 @@ CREATE TABLE `vendas` (
 /* Tabela de itens da vendas */
 DROP TABLE IF EXISTS itensvendas;
 CREATE TABLE `itensvendas` (
+  `idSeq` INT(10) NOT NULL AUTO_INCREMENT,
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `idVenda` INT(10) NOT NULL ,
-  `categoria` VARCHAR(50) DEFAULT NULL,
+  `codBarras` VARCHAR(50) DEFAULT NULL,
   `descricao` VARCHAR(100) DEFAULT NULL,
-  `vlrProduto` DECIMAL(10,2) NOT NULL,
+  `categoria` VARCHAR(50) DEFAULT NULL,
+  `unidade` VARCHAR(50) DEFAULT NULL,
+  `custo` DECIMAL(10,2) NOT NULL,
+  `margemLucro` DECIMAL(10,2) NOT NULL,
+  `qtde` INT(10) NOT NULL ,
+  `vlrUnit` DECIMAL(10,2) NOT NULL,
+  `subTotal` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`id`), 
   FOREIGN KEY (idVenda) REFERENCES vendas(id)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;

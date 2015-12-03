@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +28,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.jfree.data.time.Hour;
+
 import br.sgm.dao.ClienteDAO;
 import br.sgm.dao.ProdutoDAO;
+import br.sgm.dao.VendaDAO;
 import br.sgm.forms.ConsultaCliente.TelaConsultaCliente;
 import br.sgm.forms.ConsultaProduto.TelaConsultaProduto;
 import br.sgm.model.Cliente;
@@ -54,6 +58,7 @@ public class TelaVenda extends JPanel {
 	private JButton btnFechar;
 	private ClienteDAO daoCliente = new ClienteDAO();
 	private ProdutoDAO daoProduto = new ProdutoDAO();
+	private VendaDAO daoVenda = new VendaDAO();
 	private JTextField txtVlrPagamento;
 	private JTextField txtVlrTroco;
 	private JTextField txtIDCliente;
@@ -485,6 +490,18 @@ public class TelaVenda extends JPanel {
 		add(txtVlrPagamento, gbc_txtVlrPagamento);
 
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int retorno = JOptionPane.showConfirmDialog(null, "Deseja mesmo cancelar?", "Cancelar", JOptionPane.YES_NO_OPTION);
+				if (retorno == JOptionPane.YES_OPTION) {
+					clienteGlobal = null;
+					produtoGlobal = null;
+					listProdutosGlobal = new HashMap<Integer, ItemVenda>();
+					limparTela();
+				}
+			}
+		});
 		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/icons/cancelar.png")));
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.anchor = GridBagConstraints.NORTHEAST;
@@ -494,6 +511,20 @@ public class TelaVenda extends JPanel {
 		add(btnCancelar, gbc_btnCancelar);
 
 		JButton btnFinalizar = new JButton("Finalizar");
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				vendaGlobal.setId(daoVenda.getNextID());
+				vendaGlobal.setIdCliente(clienteGlobal.getId());
+				vendaGlobal.setNomeCliente(clienteGlobal.getNome());
+				vendaGlobal.setProdutos(model.list);
+				vendaGlobal.setVlrTotal(vlrTotal);
+				vendaGlobal.setData(new Date());
+				vendaGlobal.setHora(new Hour());
+				
+				vendaGlobal.toString();
+			}
+		});
 		btnFinalizar.setIcon(new ImageIcon(getClass().getResource("/icons/finalizar.png")));
 		GridBagConstraints gbc_btnFinalizar = new GridBagConstraints();
 		gbc_btnFinalizar.insets = new Insets(0, 0, 0, 5);
@@ -510,6 +541,18 @@ public class TelaVenda extends JPanel {
 		gbc_btnFechar.gridx = 7;
 		gbc_btnFechar.gridy = 7;
 		add(btnFechar, gbc_btnFechar);
+	}
+
+	protected void limparTela() {
+		limparDadosCliente();
+		limparDadosProduto();
+		
+		atualizarTabela();
+		
+		txtVlrPagamento.setText("00.00");
+		txtVlrTotal.setText("00.00");
+		txtVlrTroco.setText("00.00");
+		vlrTotal = new BigDecimal(0);
 	}
 
 	protected void calcularSubTotal() {
@@ -604,7 +647,8 @@ public class TelaVenda extends JPanel {
 		txtDescricao.setText(produto.getDescricao());
 		txtQtde.setText("1"); // Por default, seta 1
 		txtVlrUnit.setText(produto.getValorProduto().setScale(2, RoundingMode.HALF_EVEN).toString());
-
+		txtSubTotal.setText("");
+		
 		produtoGlobal = produto;
 	}
 
