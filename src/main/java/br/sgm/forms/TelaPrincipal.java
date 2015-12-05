@@ -175,6 +175,13 @@ public class TelaPrincipal extends JFrame {
 					gbc_btnNewButton.gridy = 0;
 					newPainel.add(telaConsultaVenda, gbc_btnNewButton);}
 
+					ActionListener action = e -> {
+						tabbedPane.remove(newPainel);
+						telaConsultaVenda = null;
+					};
+					
+					telaConsultaVenda.setAcaoFechar(action);
+					
 					tabbedPane.addTab("Consulta Venda", newPainel);
 					focus();
 				}
@@ -234,6 +241,9 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		mnRelatrios.add(mntmProdutos_1);
+		
+		JMenuItem mntmVendas_1 = new JMenuItem("Vendas");
+		mnRelatrios.add(mntmVendas_1);
 
 		JMenu mnVenda = new JMenu("Faturamento");
 
